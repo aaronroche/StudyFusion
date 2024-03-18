@@ -26,6 +26,9 @@ const Navbar = () => {
             className="collapse navbar-collapse"
             id="navbarNav">
             <ul className="navbar-nav">
+            <li className="navbar-item">
+                    <Link class="nav-link" to="/profile">Profile</Link>
+                </li>
                 <li className="navbar-item active">
                     <Link class="nav-link" to="/">Home</Link>
                 </li>

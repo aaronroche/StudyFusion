@@ -1,0 +1,60 @@
+/* login.css */
+
+#login {
+    text-align: center;
+}
+
+#login h1 {
+    margin-bottom: 20px;
+}
+
+#login .form-container {
+    max-width: 300px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#login .form-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#login .form-container input[type="email"],
+#login .form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#login .form-container button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+#login .form-container button:hover {
+    background-color: #0056b3;
+}
+
+#login .form-container a {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+#login .form-container a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,29 @@
+.profile-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-top: 10px;
+  }
+  
+  input,
+  button {
+    margin-top: 5px;
+  }
+  
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+  }
+  
