@@ -1,16 +1,18 @@
 
 import StudyFusionLogo from './StudyFusionLogo.png';
 import { Outlet, Link, MemoryRouter } from "react-router-dom";
+import AuthInfo from './AuthInfo';
 
 const Navbar = () => {
     return (
-        <MemoryRouter>
+        <div>
         <nav className="navbar navbar-expand-sm navbar-dark" style={{backgroundColor: "#17A9E8"}}>
-        <Link to="/">
+        <Link class="nav-link" to="/">
                 <img
                 className="d-inline-block align-top"
                 src={StudyFusionLogo}
-                width="30" height="30"/>
+                width="30" height="30"
+                alt="study fusion logo"/>
                 StudyFusion
         </Link>
         <button 
@@ -25,26 +27,26 @@ const Navbar = () => {
             id="navbarNav">
             <ul className="navbar-nav">
                 <li className="navbar-item active">
-                    <Link to="/">Home</Link>
+                    <Link class="nav-link" to="/">Home</Link>
                 </li>
                 <li className="navbar-item">
-                    <Link to="/mygroups">Groups</Link>
+                    <Link class="nav-link" to="/mygroups">Groups</Link>
                 </li>
                 <li className="navbar-item">
-                    <a href="#" className="nav-link">
+                    <Link class="nav-link" to="/contact">Contact</Link>
+                    {/* <a href="#" className="nav-link">
                         Contact
-                    </a>
+                    </a> */}
                 </li>
-                <li className="navbar-item">
-                    <a href="#" className="nav-link">
+                <AuthInfo />
+                    {/* <a href="#" className="nav-link">
                         Sign Out
-                    </a>
-                </li>
+                    </a> */}
             </ul>
         </div>
     </nav>
     <Outlet />
-    </MemoryRouter>
+    </div>
     );
 }
 

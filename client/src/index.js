@@ -8,12 +8,15 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 import ScheduleSS from './ScheduleSS';
 import ViewGroup from './ViewGroup';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <BrowserRouter>
     <Navbar />
-    <ViewGroup />
+    <App />
+    </BrowserRouter>
     {/* <ScheduleSS /> */}
     {/* <CreateAGroup />
     <MyGroupsGrid /> */}
