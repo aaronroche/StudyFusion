@@ -10,7 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import TimePicker from 'react-time-picker';
 import { useState } from 'react';
 import app from "./Firebase";
-import { getDatabase, set, push } from "firebase/database";
+import { getDatabase, ref, set, push } from "firebase/database";
 import './ScheduleSS.css'
 
 export default function ScheduleSS() {
@@ -25,8 +25,7 @@ export default function ScheduleSS() {
     
     const saveData = async () => {
         const db = getDatabase(app);
-        const ref = db.ref('');
-        const newDocRef = push(ref(db, ""));
+        const newDocRef = push(ref(db, "groups/group1/sessions"));
 
         set(newDocRef, {
           month: inputValue1,
