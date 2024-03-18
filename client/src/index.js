@@ -1,16 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import Navbar from './Navbar';
 import reportWebVitals from './reportWebVitals';
-import MyGroups from './MyGroups';
+// import MyGroupsGrid from './MyGroupsGrid';
+// import CreateAGroup from './CreateAGroup';
+import App from './App';
+import ScheduleSS from './ScheduleSS';
+import ViewGroup from './ViewGroup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Navbar />
-    <MyGroups />
+    <ViewGroup />
+    {/* <ScheduleSS /> */}
+    {/* <CreateAGroup />
+    <MyGroupsGrid /> */}
   </React.StrictMode>
 );
 

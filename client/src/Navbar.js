@@ -1,19 +1,18 @@
 
-import './mygroups.css';
 import StudyFusionLogo from './StudyFusionLogo.png';
+import { Outlet, Link, MemoryRouter } from "react-router-dom";
 
-function Navbar () {
+const Navbar = () => {
     return (
+        <MemoryRouter>
         <nav className="navbar navbar-expand-sm navbar-dark" style={{backgroundColor: "#17A9E8"}}>
-        <a
-            href="#"
-            className="navbar-brand mb-0 h1">
+        <Link to="/">
                 <img
                 className="d-inline-block align-top"
                 src={StudyFusionLogo}
                 width="30" height="30"/>
                 StudyFusion
-        </a>
+        </Link>
         <button 
         type="button"
         data-toggle="collapse"
@@ -26,14 +25,10 @@ function Navbar () {
             id="navbarNav">
             <ul className="navbar-nav">
                 <li className="navbar-item active">
-                    <a href="#" className="nav-link">
-                        Home
-                    </a>
+                    <Link to="/">Home</Link>
                 </li>
                 <li className="navbar-item">
-                    <a href="#" className="nav-link">
-                        Groups
-                    </a>
+                    <Link to="/mygroups">Groups</Link>
                 </li>
                 <li className="navbar-item">
                     <a href="#" className="nav-link">
@@ -48,6 +43,8 @@ function Navbar () {
             </ul>
         </div>
     </nav>
+    <Outlet />
+    </MemoryRouter>
     );
 }
 

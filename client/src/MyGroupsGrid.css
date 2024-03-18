@@ -1,0 +1,27 @@
+.my-groups-title {
+    padding-top: 15px;
+    padding-right: 200px;
+    text-align: right;
+}
+
+.my-groups-container {
+    width: 2000px;
+    padding-left: 100px;
+    padding-right: 800px;
+}
+
+.checkbox-container {
+    padding-top: 50px;
+    padding-left: 20px;
+}
+
+.select-container {
+    padding-top: 50px;
+    width: 240px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.filters-title {
+    padding-top: 20px;
+}
