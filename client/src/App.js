@@ -6,6 +6,7 @@ import CreateAGroup from './CreateAGroup';
 // import SearchGroup from "./SearchGroup";
 import ScheduleSS from './ScheduleSS';
 import './App.css';
+import ViewGroup from "./ViewGroup";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/signup" element={ <SignUp />} />
           <Route exact path="/login" element={ <LoginPage />} />
           <Route exact path="/createagroup" element={ <CreateAGroup />} />
+          <Route exact path="/group1" element={ <ViewGroup />} />
           {/* <Route exact path="/searchgroup" element={ <SearchGroup />} /> */}
           <Route exact path="/studysession" element={ <ScheduleSS />} />
         </Routes>
