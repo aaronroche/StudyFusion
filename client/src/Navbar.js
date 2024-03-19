@@ -26,20 +26,18 @@ const Navbar = () => {
             className="collapse navbar-collapse"
             id="navbarNav">
             <ul className="navbar-nav">
-            <li className="navbar-item">
+             <li className="navbar-item" active>
+                    <Link class="nav-link" to="/home">Home</Link>
+                </li>
+                <li className="navbar-item">
                     <Link class="nav-link" to="/profile">Profile</Link>
                 </li>
-                <li className="navbar-item active">
-                    <Link class="nav-link" to="/">Home</Link>
-                </li>
+               
                 <li className="navbar-item">
                     <Link class="nav-link" to="/mygroups">Groups</Link>
                 </li>
                 <li className="navbar-item">
                     <Link class="nav-link" to="/contact">Contact</Link>
-                    {/* <a href="#" className="nav-link">
-                        Contact
-                    </a> */}
                 </li>
                 <AuthInfo />
                     {/* <a href="#" className="nav-link">
