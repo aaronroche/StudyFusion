@@ -1,7 +1,7 @@
 .view-group-container {
-    text-align: center; /* Center align content */
-    margin: auto; /* Center the container */
-    max-width: 600px; /* Limit container width */
+    text-align: center;
+    margin: auto;
+    max-width: 600px;
     padding: 20px;
 }
 
