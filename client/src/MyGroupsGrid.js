@@ -125,7 +125,7 @@ export default function MyGroupsGrid() {
                     {[...Array(6)].map((_, elevation) => (
                         <div key={elevation}>
                             {elevation === 0 && groupData ? (
-                                <Link className="group-link" to="/group1">
+                                <Link className="group-link" to="StudyFusion/viewgroup">
                                     <Card sx={{ maxWidth: 345 }}>
                                         <CardActionArea>
                                             <CardMedia
@@ -165,6 +165,7 @@ export default function MyGroupsGrid() {
                         </div>
                     ))}
                 </Box>
+                <Link to="StudyFusion/searchgroup"></Link>
                             <div className='search-groups-btn'>
                                 <button>Search Groups</button>
                             </div>

@@ -7,7 +7,7 @@ const Navbar = () => {
     return (
         <div>
         <nav className="navbar navbar-expand-sm navbar-dark" style={{backgroundColor: "#17A9E8"}}>
-        <Link className="nav-link" to="/">
+        <Link className="nav-link" to="StudyFusion/">
                 <img
                 className="d-inline-block align-top"
                 src={StudyFusionLogo}
@@ -27,16 +27,16 @@ const Navbar = () => {
             id="navbarNav">
             <ul className="navbar-nav">
             <li className="navbar-item">
-                    <Link className="nav-link" to="/profile">Profile</Link>
+                    <Link className="nav-link" to="StudyFusion/profile">Profile</Link>
                 </li>
                 <li className="navbar-item active">
-                    <Link className="nav-link" to="/">Home</Link>
+                    <Link className="nav-link" to="StudyFusion/">Home</Link>
                 </li>
                 <li className="navbar-item">
-                    <Link className="nav-link" to="/mygroups">Groups</Link>
+                    <Link className="nav-link" to="StudyFusion/mygroups">Groups</Link>
                 </li>
                 <li className="navbar-item">
-                    <Link className="nav-link" to="/contact">Contact</Link>
+                    <Link className="nav-link" to="StudyFusion/contact">Contact</Link>
                     {/* <a href="#" className="nav-link">
                         Contact
                     </a> */}

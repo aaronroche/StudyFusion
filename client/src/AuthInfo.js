@@ -24,7 +24,7 @@ const signOutAction = () => {
 }
 
     return (
-        (authUser ? <li className="navbar-item"><Link className="nav-link" to="/signup" onClick={signOutAction}>Sign Out</Link></li> : <><li className="navbar-item"><Link className="nav-link" to="/signup">Sign Up</Link></li><li className="navbar-item"><Link className="nav-link" to="/login">Log In</Link></li></>)
+        (authUser ? <li className="navbar-item"><Link className="nav-link" to="StudyFusion/signup" onClick={signOutAction}>Sign Out</Link></li> : <><li className="navbar-item"><Link className="nav-link" to="StudyFusion/signup">Sign Up</Link></li><li className="navbar-item"><Link className="nav-link" to="StudyFusion/login">Log In</Link></li></>)
     )
 }
 

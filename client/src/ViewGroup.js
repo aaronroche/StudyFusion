@@ -55,7 +55,7 @@ export default function ViewGroup() {
                 </div>
             </Stack>
             <div className='create-a-ss'>
-                <Link to='/studysession'>
+                <Link to='StudyFusion/studysession'>
                     <button>Create a Study Session</button>
                 </Link>
             </div>
