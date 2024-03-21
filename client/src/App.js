@@ -15,16 +15,16 @@ function App() {
   return (
     <div className="App">
         <Routes>
-          <Route exact path="StudyFusion/" element={ <Home />} />
-          <Route exact path="StudyFusion/mygroups" element={ <MyGroupsGrid />} />
-          <Route exact path="StudyFusion/signup" element={ <SignUp />} />
-          <Route exact path="StudyFusion/login" element={ <LoginPage />} />
-          <Route exact path="StudyFusion/profile" element={ <ProfilePage />} />
-          <Route exact path="StudyFusion/createagroup" element={ <CreateAGroup />} />
-          <Route exact path="StudyFusion/viewgroup" element={ <ViewGroup />} />
-          <Route exact path="StudyFusion/searchgroup" element={ <SearchGroup />} />
-          <Route exact path="StudyFusion/studysession" element={ <ScheduleSS />} />
-          <Route exact path="StudyFusion/contact" element={ <ContactUs />} />
+          <Route exact path="/StudyFusion/" element={ <Home />} />
+          <Route exact path="/StudyFusion/mygroups" element={ <MyGroupsGrid />} />
+          <Route exact path="/StudyFusion/signup" element={ <SignUp />} />
+          <Route exact path="/StudyFusion/login" element={ <LoginPage />} />
+          <Route exact path="/StudyFusion/profile" element={ <ProfilePage />} />
+          <Route exact path="/StudyFusion/createagroup" element={ <CreateAGroup />} />
+          <Route exact path="/StudyFusion/viewgroup" element={ <ViewGroup />} />
+          <Route exact path="/StudyFusion/searchgroup" element={ <SearchGroup />} />
+          <Route exact path="/StudyFusion/studysession" element={ <ScheduleSS />} />
+          <Route exact path="/StudyFusion/contact" element={ <ContactUs />} />
         </Routes>
     </div>
   );
