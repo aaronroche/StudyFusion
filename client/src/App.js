@@ -9,6 +9,7 @@ import './App.css';
 import ViewGroup from "./ViewGroup";
 import ProfilePage from "./profile";
 import Home from './Home';
+import ContactUs from './contact'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="StudyFusion/viewgroup" element={ <ViewGroup />} />
           <Route exact path="StudyFusion/searchgroup" element={ <SearchGroup />} />
           <Route exact path="StudyFusion/studysession" element={ <ScheduleSS />} />
+          <Route exact path="StudyFusion/contact" element={ <ContactUs />} />
         </Routes>
     </div>
   );

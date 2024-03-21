@@ -1,34 +1,23 @@
-.home {
-  text-align: center;
+.study-desc {
+  color: white;
+  font-size: 50px;
 }
 
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  height: 50px;
-  margin-right: 10px;
-}
-
-.main-section {
-  padding: 50px;
-}
-
-.logos {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.logos img {
-  width: 150px;
-  margin: 0 20px;
-}
-
-.footer {
-  background-color: #f4f4f4;
+.blue-rect 
+{
   padding: 20px;
+  margin: 40px;
+  background-color: #6ED1FC;
+}
+
+.home-text-title {
+  font-size: 90px;
+}
+
+#title {
+  font-weight: 900;
+}
+
+#title-desc {
+  font-weight: 400;
 }
