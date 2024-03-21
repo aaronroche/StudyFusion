@@ -1,46 +1,23 @@
-.view-group-container {
-    text-align: center;
-    margin: auto;
-    max-width: 600px;
+.group-info-container {
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-top: 50px;
     padding: 20px;
 }
 
 .group-title {
-    font-size: 24px;
-    margin-bottom: 10px;
+    text-align: left;
 }
 
-.section-title {
-    font-size: 20px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+.desc {
+    text-align: left;
 }
 
-.description {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.session-list {
-    margin-top: 20px;
-}
-
-.fetch-button {
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.session-info {
-    font-size: 16px;
-    margin-bottom: 10px;
+.desc-container {
+    text-align: left;
+    width: 800px;
 }
 
 .create-a-ss {
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+    margin: 50px;
 }

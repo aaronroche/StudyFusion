@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import MyGroupsGrid from './MyGroupsGrid';
 import SignUp from "./SignUp";
 import LoginPage from "./LoginPage";
@@ -8,12 +8,13 @@ import ScheduleSS from './ScheduleSS';
 import './App.css';
 import ViewGroup from "./ViewGroup";
 import ProfilePage from "./profile";
+import Home from './Home';
 
 function App() {
   return (
     <div className="App">
         <Routes>
-          <Route exact path="/" element={ <MyGroupsGrid />} />
+          <Route exact path="/" element={ <Home />} />
           <Route exact path="/mygroups" element={ <MyGroupsGrid />} />
           <Route exact path="/signup" element={ <SignUp />} />
           <Route exact path="/login" element={ <LoginPage />} />
