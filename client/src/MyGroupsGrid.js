@@ -197,9 +197,10 @@ function MyGroupsGrid() {
                         </div>
                     ))}
                 </Box>
-                <Link to="StudyFusion/searchgroup"></Link>
                             <div className='search-groups-btn'>
-                                <button>Search Groups</button>
+                                <Link to="StudyFusion/searchgroup">
+                                    <button>Search Groups</button>
+                                </Link>
                             </div>
                             </Grid>
                         </ThemeProvider>
