@@ -112,41 +112,62 @@ export default function MyGroupsGrid() {
                             </Grid>
 
                             <Grid item xs={6} key={index}>
-                                <Box
-                                    sx={{
-                                        p: 2,
-                                        borderRadius: 2,
-                                        bgcolor: 'background.default',
-                                        display: 'grid',
-                                        gridTemplateColumns: { md: '1fr 1fr' },
-                                        gap: 2,
-                                    }}
-                                >
-                                    {[1].map((elevation) => (
-                                        <div>
-                                            <Link className="group-link" to="/group1">
-                                                <Card sx={{ maxWidth: 345 }} key={elevation}>
-                                                    <CardActionArea>
-                                                        <CardMedia
-                                                            component="img"
-                                                            height="140"
-                                                            image={groupImg}
-                                                            alt="chemistry"
-                                                        />
-                                                        <CardContent>
-                                                                <Typography gutterBottom variant="h5" component="div">
-                                                                    {groupData.groupName}
-                                                                </Typography>
-                                                                <Typography variant="body2" color="text.secondary">
-                                                                    {groupData.groupDesc}
-                                                                </Typography>
-                                                        </CardContent>
-                                                    </CardActionArea>
-                                                </Card>
-                                            </Link>
-                                        </div>
-                                    ))}
-                                </Box>
+                            <Box
+                    sx={{
+                        p: 2,
+                        borderRadius: 2,
+                        bgcolor: 'background.default',
+                        display: 'grid',
+                        gridTemplateColumns: { md: '1fr 1fr' },
+                        gap: 2,
+                    }}
+                >
+                    {[...Array(6)].map((_, elevation) => (
+                        <div key={elevation}>
+                            {elevation === 0 && groupData ? (
+                                <Link className="group-link" to="/group1">
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                component="img"
+                                                height="140"
+                                                image={groupImg}
+                                                alt="chemistry"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="div">
+                                                    {groupData.groupName}
+                                                </Typography>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    {groupData.groupDesc}
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Link>
+                            ) : (
+                                <Card sx={{ maxWidth: 345 }}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                                component="img"
+                                                height="140"
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            )}
+                            {elevation !== 0 && <div style={{ height: 16 }} />}
+                        </div>
+                    ))}
+                </Box>
+                            <div className='search-groups-btn'>
+                                <button>Search Groups</button>
+                            </div>
                             </Grid>
                         </ThemeProvider>
                     ))}

@@ -1,0 +1,23 @@
+
+#title {
+    font-weight: 900;
+}
+
+#title-desc {
+    font-weight: 400;
+}
+
+.home-text-title {
+    font-size: 90px;
+}
+
+.blue-rect {
+    padding: 20px;
+    margin: 40px;
+    background-color: #6ED1FC;
+}
+
+.study-desc {
+    color: white;
+    font-size: 50px;
+}
