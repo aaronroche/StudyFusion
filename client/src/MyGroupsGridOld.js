@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import app from "./Firebase";
-import { getDatabase, ref, get, onValue } from "firebase/database";
+import { getDatabase, ref, get } from "firebase/database";
 import './MyGroupsGrid.css';
 import groupImg from './static/images/cards/chemistry.jpeg';
 import {Link} from "react-router-dom";
@@ -31,60 +31,28 @@ const FilterBox = styled(Paper)(({ theme }) => ({
 }));
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
-const db = getDatabase(app);
-const dbRef = ref(db, "groups/");
 
-function MyGroupsGrid() {
+export default function MyGroupsGrid() {
     const [age, setClass] = useState('');
     const [groupData, setGroupData] = useState([]);
-    const [numGroups, setNumGroups] = useState(0);
-    const max = 6
 
     const handleChange = (event) => {
         setClass(event.target.value);
     };
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const db = getDatabase(app);
-    //         const dbRef = ref(db, "groups/");
-    //         var current = 0;
-    //         try {
-    //             onValue(dbRef, (snapshot) => {
-    //                 Object.entries(snapshot.val()).forEach((group) => {
-    //                     if (current < max) {
-    //                         console.log(group);
-    //                         setGroupData((groups) => [...groups, group]);
-    //                         current++;
-    //                       }
-    //                 });
-    //                 setNumGroups(current);
-    //             })
-    //             // const snapshot = await get(dbRef);
-                
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-
     useEffect(() => {
+        const fetchData = async () => {
+            const db = getDatabase(app);
+            const dbRef = ref(db, "groups/group1");
+            try {
+                const snapshot = await get(dbRef);
+                setGroupData(snapshot.val());
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-        return onValue(dbRef, (snapshot) => {
-            var current = 0;
-            setNumGroups(current);
-            Object.entries(snapshot.val()).forEach((group) => {
-                if (current < max) {
-                    console.log(group);
-                    setGroupData((groups) => [...groups, group]);
-                    current++;
-                }
-            });
-            setNumGroups(current);
-            })
-            // const snapshot = await get(dbRef);
+        fetchData();
     }, []);
 
     return (
@@ -154,33 +122,31 @@ function MyGroupsGrid() {
                         gap: 2,
                     }}
                 >
-                    {groupData ? groupData.map(groupInfo => (
-                        <div>
-                            <Link className="group-link" to="/StudyFusion/viewgroup" state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}}>
+                    {[...Array(6)].map((_, elevation) => (
+                        <div key={elevation}>
+                            {elevation === 0 && groupData ? (
+                                <Link className="group-link" to="StudyFusion/viewgroup">
                                     <Card sx={{ maxWidth: 345 }}>
                                         <CardActionArea>
                                             <CardMedia
                                                 component="img"
                                                 height="140"
-                                                image={groupInfo[1].imageUrl}
+                                                image={groupImg}
                                                 alt="chemistry"
                                             />
                                             <CardContent>
                                                 <Typography gutterBottom variant="h5" component="div">
-                                                    {groupInfo[1].groupName}
+                                                    {groupData.groupName}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary">
-                                                    {groupInfo[1].groupDesc}
+                                                    {groupData.groupDesc}
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
                                     </Card>
                                 </Link>
-                        </div>
-                    )) : null }
-                    { Array.from(Array(max - numGroups), (e, i) => (
-                        <div>
-                            <Card sx={{ maxWidth: 345 }}>
+                            ) : (
+                                <Card sx={{ maxWidth: 345 }}>
                                     <CardActionArea>
                                         <CardMedia
                                                 component="img"
@@ -194,6 +160,8 @@ function MyGroupsGrid() {
                                         </CardContent>
                                     </CardActionArea>
                                 </Card>
+                            )}
+                            {elevation !== 0 && <div style={{ height: 16 }} />}
                         </div>
                     ))}
                 </Box>
@@ -209,5 +177,3 @@ function MyGroupsGrid() {
         </div>
     );
 }
-
-export default MyGroupsGrid;
