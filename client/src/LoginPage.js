@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import axios from 'axios';
 import './login.css'; // Import CSS file
 
 const LoginPage = () => {
@@ -15,15 +14,10 @@ const LoginPage = () => {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, email, password)
         .then((userInfo) => {
-          console.log(userInfo);
+          // console.log(userInfo);
         });
       
-      // Use Axios to send login request
-      const response = await axios.post('your-login-endpoint', { email, password });
-      // Handle successful login
-      console.log(response.data);
     } catch (error) {
-      // Handle login error
       console.error(error);
     }
   };

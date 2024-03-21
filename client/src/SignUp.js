@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import './signup.css'; // Import CSS file
 
 const Signup = () => {
@@ -9,23 +9,18 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [isProfessor, setIsProfessor] = useState(false); // State for checkbox
 
-    const handleSubmit = async (e) => {
+    const signUp = (e) => {
         e.preventDefault();
-        try {
-            // Use Axios to send signup request
-            const response = await axios.post('your-signup-endpoint', { username, email, password, isProfessor });
-            // Handle successful signup
-            console.log(response.data);
-        } catch (error) {
-            // Handle signup error
-            console.error(error);
-        }
-    };
+        createUserWithEmailAndPassword(getAuth(), email, password)
+        .then((userInfo) => {
+          console.log(userInfo);
+        });
+      };
 
     return (
         <div className="form-container">
             <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={signUp}>
                 <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                 <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -35,7 +30,7 @@ const Signup = () => {
                 </label>
                 <button type="submit">Sign Up</button>
             </form>
-            <Link to="/">Already have an account? Login here.</Link>
+            <Link to="/login">Already have an account? Login here.</Link>
         </div>
     );
 };

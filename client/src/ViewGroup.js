@@ -5,13 +5,17 @@ import { getDatabase, ref, get } from "firebase/database";
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import './ViewGroup.css'
+import { useLocation } from 'react-router-dom';
 
 export default function ViewGroup() {
     let [sessionArray, setSessionArray] = useState([]);
+    const groupKey = useLocation().state.groupKey;
+    const groupData = useLocation().state.groupData;
 
     const fetchData = async () => {
         const db = getDatabase(app);
-        const dbRef = ref(db, "groups/group1/sessions");
+        const dbRef = (groupKey === null || groupKey === 0) ? ref(db, "groups/group1/sessions")
+        : ref(db, "groups/" + groupKey +"/sessions");
         const snapshot = await get(dbRef);
         if(snapshot.exists()) {
           setSessionArray(Object.values(snapshot.val()));
@@ -23,13 +27,11 @@ export default function ViewGroup() {
     return (
 
         <div className='group-info-container'>
-            <h1 className='group-title'>Chem Buds</h1>
+            <h1 className='group-title'>{groupData.groupName}</h1>
             <h3 className='desc'>Description</h3>
             <div className='desc-container'>
                 <h4>
-                    This will be a study group for the CHEM 1210 course.
-                    Feel free to join this group if you want to meet people
-                    who are in the same class!
+                {groupData.groupDesc}
                 </h4>
             </div>
 
