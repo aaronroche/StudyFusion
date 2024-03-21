@@ -230,7 +230,7 @@ function SearchGroup() {
                                             Would you like to join {groupInfo[1].groupName}?
                                           </div>
                                           <div className="card-body d-flex flex-row justify-content-center">
-                                          <Link className="nav-link" to="/viewgroup"
+                                          <Link className="nav-link" to="/StudyFusion/viewgroup"
                                         state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}} onClick={setGroupKey()}>
                                           <button className="d-flex">Join</button>
                                           </Link>
