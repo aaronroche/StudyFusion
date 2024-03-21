@@ -30,7 +30,9 @@ const Signup = () => {
                         <input type="checkbox" checked={isProfessor} onChange={(e) => setIsProfessor(e.target.checked)} />
                         Are you a professor?
                     </label>
-                    <button type="submit">Sign Up</button>
+                    <Link to="/">
+                        <button type="submit">Sign Up</button>
+                    </Link>
                 </form>
                 <Link to="/login">Already have an account? Login here.</Link>
             </Stack>
