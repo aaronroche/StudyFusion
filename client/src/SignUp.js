@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import Stack from '@mui/material/Stack';
 import './signup.css'; // Import CSS file
 
 const Signup = () => {
@@ -19,18 +20,20 @@ const Signup = () => {
 
     return (
         <div className="form-container">
-            <h2>Sign Up</h2>
-            <form onSubmit={signUp}>
-                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <label>
-                    <input type="checkbox" checked={isProfessor} onChange={(e) => setIsProfessor(e.target.checked)} />
-                    Are you a professor?
-                </label>
-                <button type="submit">Sign Up</button>
-            </form>
-            <Link to="/login">Already have an account? Login here.</Link>
+            <Stack spacing={2}>
+                <h2>Sign Up</h2>
+                <form onSubmit={signUp}>
+                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <label>
+                        <input type="checkbox" checked={isProfessor} onChange={(e) => setIsProfessor(e.target.checked)} />
+                        Are you a professor?
+                    </label>
+                    <button type="submit">Sign Up</button>
+                </form>
+                <Link to="/login">Already have an account? Login here.</Link>
+            </Stack>
         </div>
     );
 };

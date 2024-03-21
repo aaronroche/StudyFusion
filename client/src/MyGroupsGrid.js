@@ -165,6 +165,9 @@ export default function MyGroupsGrid() {
                         </div>
                     ))}
                 </Box>
+                            <div className='search-groups-btn'>
+                                <button>Search Groups</button>
+                            </div>
                             </Grid>
                         </ThemeProvider>
                     ))}

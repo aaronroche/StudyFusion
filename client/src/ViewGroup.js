@@ -5,7 +5,7 @@ import { getDatabase, ref, get } from "firebase/database";
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import './ViewGroup.css'
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function ViewGroup() {
     let [sessionArray, setSessionArray] = useState([]);
@@ -55,7 +55,9 @@ export default function ViewGroup() {
                 </div>
             </Stack>
             <div className='create-a-ss'>
-                <button>Create a Study Session</button>
+                <Link to='/studysession'>
+                    <button>Create a Study Session</button>
+                </Link>
             </div>
         </div>
     );
