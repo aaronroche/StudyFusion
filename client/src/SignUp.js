@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import Stack from '@mui/material/Stack';
 import './signup.css'; // Import CSS file
@@ -9,6 +9,7 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isProfessor, setIsProfessor] = useState(false); // State for checkbox
+    const navigate = useNavigate("/StudyFusion/");
 
     const signUp = (e) => {
         e.preventDefault();
@@ -30,11 +31,9 @@ const Signup = () => {
                         <input type="checkbox" checked={isProfessor} onChange={(e) => setIsProfessor(e.target.checked)} />
                         Are you a professor?
                     </label>
-                    <Link to="StudyFusion/">
                         <button type="submit">Sign Up</button>
-                    </Link>
                 </form>
-                <Link to="StudyFusion/login">Already have an account? Login here.</Link>
+                <Link to="/StudyFusion/login">Already have an account? Login here.</Link>
             </Stack>
         </div>
     );

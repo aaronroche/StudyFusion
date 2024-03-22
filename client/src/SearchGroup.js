@@ -94,7 +94,7 @@ function SearchGroup() {
               setDbGroups((groups) => [...groups, group]);
               current++;
             }
-            else if (group.groupName.includes(searchedTerm)) {
+            else if (group[1].groupName.includes(searchedTerm)) {
               console.log(group);
               setDbGroups((groups) => [...groups, group]);
               current++;

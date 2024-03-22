@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import Stack from '@mui/material/Stack';
 import './login.css'; // Import CSS file
@@ -7,8 +7,9 @@ import './login.css'; // Import CSS file
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
       // Use Firebase to sign in user
@@ -17,7 +18,7 @@ const LoginPage = () => {
         .then((userInfo) => {
           // console.log(userInfo);
         });
-      
+      navigate("/StudyFusion/");
     } catch (error) {
       console.error(error);
     }
@@ -30,11 +31,9 @@ const LoginPage = () => {
                 <form onSubmit={handleSubmit}>
                 <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <Link to="StudyFusion/">
                     <button type="submit">Login</button>
-                </Link>
                 </form>
-                <Link to="StudyFusion/signup">Don't have an account? Sign up here.</Link>
+                <Link to="/StudyFusion/signup">Don't have an account? Sign up here.</Link>
             </Stack>
         </div>
   );
