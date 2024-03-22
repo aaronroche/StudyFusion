@@ -9,7 +9,7 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isProfessor, setIsProfessor] = useState(false); // State for checkbox
-    const navigate = useNavigate("/StudyFusion/");
+    const navigate = useNavigate();
 
     const signUp = (e) => {
         e.preventDefault();
@@ -17,6 +17,7 @@ const Signup = () => {
         .then((userInfo) => {
           console.log(userInfo);
         });
+        navigate("/StudyFusion/");
       };
 
     return (
