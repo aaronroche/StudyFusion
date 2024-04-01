@@ -11,22 +11,34 @@ import TimePicker from 'react-time-picker';
 import { useState } from 'react';
 import app from "./Firebase";
 import { getDatabase, ref, set, push } from "firebase/database";
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import './ScheduleSS.css'
 
 export default function ScheduleSS() {
     const [age] = React.useState('');
     const [value] = useState('10:00');
+    const groupKey = useLocation().state.groupKeySS;
+    const groupData = useLocation().state.groupData;
+    const navigate = useNavigate();
 
     let [inputValue1, setInputValue1] = useState("");
     let [inputValue2, setInputValue2] = useState("");
     let [inputValue3, setInputValue3] = useState("");
     let [inputValue4, setInputValue4] = useState("");
     let [inputValue5, setInputValue5] = useState("");
+
+    const createSS = (e) => {
+        navigate(
+            "/StudyFusion/viewgroup", 
+            {
+                state: {groupKeySS: groupKey, groupData: groupData}
+            });
+    };
     
     const saveData = async () => {
         const db = getDatabase(app);
-        const newDocRef = push(ref(db, "groups/group1/sessions"));
-
+        const newDocRef = push(ref(db, "groups/" + groupKey +"/sessions"));
         set(newDocRef, {
           month: inputValue1,
           day: inputValue2,
@@ -39,6 +51,8 @@ export default function ScheduleSS() {
         }).catch((error) => {
           alert("error: ", error.message);
         })
+
+        createSS();
     }
 
     return (
@@ -154,7 +168,7 @@ export default function ScheduleSS() {
                 </div>
 
                 <div className='submit-session-btn'>
-                    <button onClick={saveData} className='submit-session'>Submit</button>
+                    <button onClick={saveData}  className='submit-session'>Submit</button>
                 </div>
             </div>
         </div>

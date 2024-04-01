@@ -9,13 +9,13 @@ import { Link, useLocation } from 'react-router-dom';
 
 export default function ViewGroup() {
     let [sessionArray, setSessionArray] = useState([]);
-    const groupKey = useLocation().state.groupKey;
+    const groupKey = useLocation().state.groupKeySS;
     const groupData = useLocation().state.groupData;
 
     const fetchData = async () => {
         const db = getDatabase(app);
         const dbRef = (groupKey === null || groupKey === 0) ? ref(db, "groups/group1/sessions")
-        : ref(db, "groups/" + groupKey +"/sessions");
+        : ref(db, "groups/" + groupKey + "/sessions");
         const snapshot = await get(dbRef);
         if(snapshot.exists()) {
           setSessionArray(Object.values(snapshot.val()));
@@ -55,7 +55,8 @@ export default function ViewGroup() {
                 </div>
             </Stack>
             <div className='create-a-ss'>
-                <Link to='/StudyFusion/studysession'>
+                <Link to='/StudyFusion/studysession'
+                state= {{groupKeySS: groupKey, groupData: groupData}}>
                     <button>Create a Study Session</button>
                 </Link>
             </div>
