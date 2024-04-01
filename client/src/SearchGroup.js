@@ -183,7 +183,7 @@ function SearchGroup() {
       }
 
       get(db_ref(db, 'groups/' + groupKey)).then((groupInfo) => {
-        navigate("/StudyFusion/viewgroup", { state: {
+        navigate("/viewgroup", { state: {
           groupKey: groupKey,
           groupData: groupInfo.val()
         }});

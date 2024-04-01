@@ -37,7 +37,7 @@ const Signup = () => {
 
         })));
 
-        navigate("/StudyFusion/");
+        navigate("/");
       };
 
     return (
@@ -54,7 +54,7 @@ const Signup = () => {
                     </label>
                         <button type="submit">Sign Up</button>
                 </form>
-                <Link to="/StudyFusion/login">Already have an account? Login here.</Link>
+                <Link to="/login">Already have an account? Login here.</Link>
             </Stack>
         </div>
     );

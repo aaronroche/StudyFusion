@@ -32,7 +32,7 @@ export default function ScheduleSS() {
 
     const createSS = (e) => {
         navigate(
-            "/StudyFusion/viewgroup", 
+            "/viewgroup", 
             {
                 state: {groupKey: groupKey, groupData: groupData}
             });

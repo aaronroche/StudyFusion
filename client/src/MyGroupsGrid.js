@@ -213,7 +213,7 @@ function MyGroupsGrid() {
                 >
                     {groupData ? groupData.map(groupInfo => (
                         <div>
-                            <Link className="group-link" to="/StudyFusion/viewgroup" state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}}>
+                            <Link className="group-link" to="/viewgroup" state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}}>
                                     <Card sx={{ maxWidth: 345 }}>
                                         <CardActionArea>
                                             <CardMedia
@@ -261,11 +261,11 @@ function MyGroupsGrid() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Link to="/StudyFusion/searchgroup">
+                                <Link to="/searchgroup">
                                     <button>Search Groups</button>
                                 </Link>
 
-                                <Link to="/StudyFusion/createagroup">
+                                <Link to="/createagroup">
                                     <button>Create a Group</button>
                                 </Link>
                             </Stack>
