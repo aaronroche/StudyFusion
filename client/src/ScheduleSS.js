@@ -7,7 +7,10 @@ import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import 'react-time-picker/dist/TimePicker.css';
 import Checkbox from '@mui/material/Checkbox';
-import TimePicker from 'react-time-picker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import app from "./Firebase";
 import { getDatabase, ref, set, push } from "firebase/database";
@@ -16,17 +19,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './ScheduleSS.css'
 
 export default function ScheduleSS() {
-    const [age] = React.useState('');
-    const [value] = useState('10:00');
     const groupKey = useLocation().state.groupKeySS;
     const groupData = useLocation().state.groupData;
     const navigate = useNavigate();
 
-    let [inputValue1, setInputValue1] = useState("");
-    let [inputValue2, setInputValue2] = useState("");
-    let [inputValue3, setInputValue3] = useState("");
     let [inputValue4, setInputValue4] = useState("");
     let [inputValue5, setInputValue5] = useState("");
+
+    const [month, setMonth] = useState('');
+    const [day, setDay] = useState('');
+    const [time, setTime] = React.useState(dayjs('2022-04-17T15:30'));
 
     const createSS = (e) => {
         navigate(
@@ -40,9 +42,9 @@ export default function ScheduleSS() {
         const db = getDatabase(app);
         const newDocRef = push(ref(db, "groups/" + groupKey +"/sessions"));
         set(newDocRef, {
-          month: inputValue1,
-          day: inputValue2,
-          time: inputValue3,
+          month: month,
+          day: day,
+          time: time,
           location: inputValue4,
           zoomLink: inputValue5
 
@@ -54,6 +56,8 @@ export default function ScheduleSS() {
 
         createSS();
     }
+
+    console.log(time);
 
     return (
         <div>
@@ -73,8 +77,8 @@ export default function ScheduleSS() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={age}
-                            onChange={(e) => setInputValue1(e.target.value.toString())}
+                            value={month}
+                            onChange={(e) => setMonth(e.target.value.toString())}
                         >
                             <MenuItem value={1}>01</MenuItem>
                             <MenuItem value={2}>02</MenuItem>
@@ -96,8 +100,8 @@ export default function ScheduleSS() {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={age}
-                            onChange={(e) => setInputValue2(e.target.value.toString())}
+                            value={day}
+                            onChange={(e) => setDay(e.target.value.toString())}
                         >
                             <MenuItem value={1}>01</MenuItem>
                             <MenuItem value={2}>02</MenuItem>
@@ -135,9 +139,13 @@ export default function ScheduleSS() {
 
                     <FormControl style={{minWidth: 175}}>
                         <h3 className='class-title'>Time</h3>
-                        <div>
-                            <TimePicker onChange={(value) => setInputValue3(value.toString())} value={value} />
-                        </div>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <TimePicker
+                                label="Controlled picker"
+                                value={time}
+                                onChange={(newTime) => setTime(dayjs(newTime).format('HH:mm'))}
+                            />
+                        </LocalizationProvider>
                     </FormControl>
                 </Stack>
 

@@ -68,3 +68,7 @@
     border-radius: 10px;
     border: none;
 }
+
+.date-picker-div {
+    padding-top: 20px;
+}
