@@ -1,5 +1,5 @@
-
 .title {
+    text-align: center;
     padding-left: 275px;
     padding-top: 20px;
     padding-bottom: 30px;
@@ -12,6 +12,7 @@
     margin-top: -495px;
     margin-left: auto;
     margin-right: auto;
+    overflow: hidden;
 }
 
 .dark-blue-box {
@@ -19,6 +20,7 @@
     height: 475px;
     background-color: #032B43;
     margin-left: 290px;
+    overflow: hidden;
 }
 
 .form-container {
@@ -56,7 +58,6 @@
 .submit-info-container {
     padding-top: 15px;
     text-align: center;
-    
 }
 
 .submit-info {

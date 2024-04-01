@@ -17,6 +17,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import app from "./Firebase";
 import { getDatabase, ref, get, onValue } from "firebase/database";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import './MyGroupsGrid.css';
 import groupImg from './static/images/cards/chemistry.jpeg';
 import {Link} from "react-router-dom";
@@ -32,12 +33,14 @@ const FilterBox = styled(Paper)(({ theme }) => ({
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 const db = getDatabase(app);
-const dbRef = ref(db, "groups/");
+const dbRef = ref(db, "users/user0/groups");
+const dbRefUsers = ref(db, "users");
 
 function MyGroupsGrid() {
     const [age, setClass] = useState('');
     const [groupData, setGroupData] = useState([]);
     const [numGroups, setNumGroups] = useState(0);
+    const [email, setEmail] = useState(null)
     const max = 6
 
     const handleChange = (event) => {
@@ -70,16 +73,35 @@ function MyGroupsGrid() {
     //     fetchData();
     // }, []);
 
-    useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, function(user) {
+        if (user) {
+            setEmail(user.email)
+        }
+        else {
+            console.log("user could not be found");
+        }
+    })
 
+    console.log("Email: " + email);
+
+    useEffect(() => {
         return onValue(dbRef, (snapshot) => {
             var current = 0;
             setNumGroups(current);
             Object.entries(snapshot.val()).forEach((group) => {
                 if (current < max) {
                     console.log(group);
-                    setGroupData((groups) => [...groups, group]);
-                    current++;
+                    var groupRef = ref(db, "groups/" + group[0]);
+
+                    var groupArray;
+                    onValue(groupRef, (snapshotGroup) => {
+                        console.log(snapshotGroup.val())
+                        groupArray = [group[0], snapshotGroup.val()];
+                        console.log(groupArray);
+                        setGroupData((groups) => [...groups, groupArray]);
+                        current++;
+                    });
                 }
             });
             setNumGroups(current);
@@ -198,9 +220,20 @@ function MyGroupsGrid() {
                     ))}
                 </Box>
                             <div className='search-groups-btn'>
+                            <Stack 
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={2}
+                            >
                                 <Link to="/StudyFusion/searchgroup">
                                     <button>Search Groups</button>
                                 </Link>
+
+                                <Link to="/StudyFusion/createagroup">
+                                    <button>Create a Group</button>
+                                </Link>
+                            </Stack>
                             </div>
                             </Grid>
                         </ThemeProvider>
