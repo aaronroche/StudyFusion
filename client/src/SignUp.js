@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import app from "./Firebase";
+import { getDatabase, ref, set, push } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import Stack from '@mui/material/Stack';
 import './signup.css'; // Import CSS file
@@ -11,12 +13,30 @@ const Signup = () => {
     const [isProfessor, setIsProfessor] = useState(false); // State for checkbox
     const navigate = useNavigate();
 
+    const db = getDatabase(app);
+    const newDocRef = push(ref(db, "users"));
+
     const signUp = (e) => {
         e.preventDefault();
         createUserWithEmailAndPassword(getAuth(), email, password)
-        .then((userInfo) => {
-          console.log(userInfo);
-        });
+        .then(((userInfo) => { // first is onfulfilled, second is onrejected
+            console.log(userInfo);
+            set(newDocRef, {
+                email: email,
+                username: username,
+                isProfessor: isProfessor,
+                groups: {}, // this doesn't actually add anything to the database, no groups key shows up
+                profileImage: "https://t3.ftcdn.net/jpg/02/48/42/64/240_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg",
+        
+            }).then( () => {
+                console.log("data saved successfully");
+            }).catch((error) => {
+                console.log("error: " + error.message);
+            })
+        }), (((userInfo) => {
+
+        })));
+
         navigate("/StudyFusion/");
       };
 
