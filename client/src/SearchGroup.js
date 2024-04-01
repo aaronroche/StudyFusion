@@ -7,10 +7,12 @@ import { CardActionArea, Checkbox } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import app from "./Firebase";
 import { getStorage, getDownloadURL, ref as storage_ref} from "firebase/storage";
-import { getDatabase, ref as db_ref, query, onValue, get, limitToFirst, onChildAdded, DataSnapshot } from "firebase/database";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, ref as db_ref, push, set, query, onValue, get, child, limitToFirst,
+  orderByKey, orderByChild, onChildAdded, DataSnapshot, equalTo } from "firebase/database";
 import { useState, useEffect, useRef } from 'react'; 
 import { Popup } from 'reactjs-popup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBOhZNloTmqpBBPOy0103bsyhY-S-AQFi4",
@@ -37,6 +39,7 @@ const storage = getStorage();
 // }); 
 
 const groupRef = db_ref(db, 'groups');
+const userRef = db_ref(db, 'users');
 // const newMsg = query(groupRef, limitToFirst(8));
 // onChildAdded(newMsg, (data) => {
 //   console.log(data.val().groupID);
@@ -61,7 +64,9 @@ function SearchGroup() {
   const [dbGroups, setDbGroups] = useState([]);
   const [groupSearchTerm, setGroupSearchTerm] = useState('');
   const [numGroups, setNumGroups] = useState(0);
+  const [email, setEmail] = useState(null);
   const max = 8;
+  const navigate = useNavigate();
   // const [imagesLoaded, setImagesLoaded] = useState(true);
   // const [groupImages, setGroupImages] = useState([]);
 
@@ -71,6 +76,24 @@ function SearchGroup() {
   //           return url; });
   // }
 
+  const auth = getAuth();
+  onAuthStateChanged(auth, function(user) {
+      if (user) {
+          // console.log(user.email);
+          setEmail(user.email);
+      }
+      else {
+
+      }
+  })
+
+  const userQuery = query(userRef, orderByChild('email'));
+
+  // const emailQuery = query(userQuery, );
+
+  // const emailQuery = query(userQuery, equalTo(email, "email"));
+
+
   const performSearch = (someTerm) => {
     localStorage.setItem('SearchTerm', someTerm);
     window.location.reload();
@@ -78,6 +101,95 @@ function SearchGroup() {
 
   const setGroupKey = (someKey) => {
     localStorage.setItem('GroupKey', someKey);
+  }
+
+  const userJoinGroup = (groupKey) => {
+    var thisGroupRef = db_ref(db, 'groups/' + groupKey + '/groupMembers');
+    var userExists = false;
+    get(thisGroupRef).then((data) => {
+      if (!data.exists()) {
+        return;
+      }
+      // console.log(data.val());
+      var groupInfo = data.val();
+      // console.log(groupInfo);
+      Object.entries(groupInfo).forEach( (user) => {
+        console.log(user[0]);
+        
+        get(db_ref(db, 'users/' + user[0])).then((userSnap) => {
+          // console.log(userSnap.val());
+          var emailVal;
+          if (userSnap.val() != null) {
+            emailVal = userSnap.val().email;
+            if (emailVal === email) {
+              userExists = true;
+            }
+          }
+          // if (emailVal === email) {
+          //   userExists = true;
+            // do not join group because group member exists
+            // var searchingDone = false;
+            // get(thisGroupRef).then( (gSnap) => {
+            //   Object.entries(gSnap.val()).forEach((gUser) => {
+            //     if (gUser[0] == user[0]) {
+            //       searchingDone = true;
+            //       return;
+            //     }
+            //   });
+            //   searchingDone = true;
+            // })
+            // while (!searchingDone) {
+  
+            // }
+  
+          // //   set(newUserRef, {
+          // //     groupID: 0
+          // // })
+          //   // set(child(newUserRef, data.val()[0]), {
+          //   //   groupID: 0
+          //   // });
+          //   // set(child(newGroupRef, user[0]), {
+          //   //   userID: 0
+          //   // });
+  
+          // }
+        });
+      })});
+      // console.log(data.val());
+
+      if (!userExists) {
+        get(userRef).then((data) => {
+          var allUsers = data.val();
+          var thisUser;
+          Object.entries(allUsers).forEach((user) => {
+            if (user[1].email === email) {
+              thisUser = user[0];
+            }
+          });
+          // console.log("This user: " + thisUser);
+          var newUserRef = db_ref(db, "users/" + thisUser + "/groups/" + groupKey);
+          var newGroupRef = db_ref(db, "groups/" + groupKey + "/groupMembers/" + thisUser);
+          // console.log(newUserRef);
+          // console.log(newGroupRef);
+          set(newUserRef, {
+            groupID: 0
+          })
+          set(newGroupRef, {
+            userID: 0
+          });
+          // console.log(child(newGroupRef, thisUser));
+          // console.log(child(newGroupRef, groupKey));
+        });
+      }
+
+      get(db_ref(db, 'groups/' + groupKey)).then((groupInfo) => {
+        navigate("/StudyFusion/viewgroup", { state: {
+          groupKey: groupKey,
+          groupData: groupInfo.val()
+        }});
+      });
+
+      
   }
 
   useEffect(() => {
@@ -230,10 +342,7 @@ function SearchGroup() {
                                             Would you like to join {groupInfo[1].groupName}?
                                           </div>
                                           <div className="card-body d-flex flex-row justify-content-center">
-                                          <Link className="nav-link" to="/StudyFusion/viewgroup"
-                                        state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}} onClick={setGroupKey()}>
-                                          <button className="d-flex">Join</button>
-                                          </Link>
+                                          <button className="d-flex" onClick={() => userJoinGroup(groupInfo[0])}>Join</button>
                                           </div>
                                           
                                         </Card>

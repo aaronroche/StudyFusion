@@ -74,39 +74,74 @@ function MyGroupsGrid() {
     // }, []);
 
     const auth = getAuth();
-    onAuthStateChanged(auth, function(user) {
+
+    console.log("Email: " + email);
+
+    const displayUserGroups = (userEmail) => {
+        var userKey;
+        get(dbRefUsers).then((snapshot) => {
+            Object.entries(snapshot.val()).forEach((userVal) => {
+                if (userVal[1].email === userEmail) {
+                    userKey = userVal[0];
+                    get(ref(db, 'users/' + userKey + '/groups')).then((groupSnap) => {
+                        var current = 0;
+                        Object.entries(groupSnap.val()).forEach((group) => {
+                            if (current < max) {
+                                console.log(group);
+                                var groupRef = ref(db, "groups/" + group[0]);
+    
+                                var groupArray;
+                                get(groupRef).then((snapshotGroup) => {
+                                    // console.log(snapshotGroup.val())
+                                    groupArray = [group[0], snapshotGroup.val()];
+                                    // console.log(groupArray);
+                                    setGroupData((groups) => [...groups, groupArray]);
+                                    current++;
+                                });
+                            }
+                        });
+                        // console.log(groupData);
+                        setNumGroups(current);
+                        // console.log(numGroups);
+                    });
+                    return;
+                }
+            });
+        });
+    }
+
+    useEffect(() => {
+        const onAuthDone = onAuthStateChanged(auth, (user) => {
         if (user) {
-            setEmail(user.email)
+            setEmail(user.email);
+            displayUserGroups(user.email);
         }
         else {
             console.log("user could not be found");
         }
-    })
-
-    console.log("Email: " + email);
-
-    useEffect(() => {
-        return onValue(dbRef, (snapshot) => {
-            var current = 0;
-            setNumGroups(current);
-            Object.entries(snapshot.val()).forEach((group) => {
-                if (current < max) {
-                    console.log(group);
-                    var groupRef = ref(db, "groups/" + group[0]);
-
-                    var groupArray;
-                    onValue(groupRef, (snapshotGroup) => {
-                        console.log(snapshotGroup.val())
-                        groupArray = [group[0], snapshotGroup.val()];
-                        console.log(groupArray);
-                        setGroupData((groups) => [...groups, groupArray]);
-                        current++;
-                    });
-                }
-            });
-            setNumGroups(current);
-            })
-            // const snapshot = await get(dbRef);
+    });
+        return () => { onAuthDone();}
+        // displayUserGroups();
+            // onValue(dbRef, (snapshot) => {
+            //     var current = 0;
+            //     setNumGroups(current);
+            //     Object.entries(snapshot.val()).forEach((group) => {
+            //         if (current < max) {
+            //             console.log(group);
+            //             var groupRef = ref(db, "groups/" + group[0]);
+    
+            //             var groupArray;
+            //             onValue(groupRef, (snapshotGroup) => {
+            //                 console.log(snapshotGroup.val())
+            //                 groupArray = [group[0], snapshotGroup.val()];
+            //                 console.log(groupArray);
+            //                 setGroupData((groups) => [...groups, groupArray]);
+            //                 current++;
+            //             });
+            //         }
+            //     });
+            //     setNumGroups(current);
+            //     })
     }, []);
 
     return (
