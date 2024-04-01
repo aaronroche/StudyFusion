@@ -34,7 +34,7 @@ export default function ScheduleSS() {
         navigate(
             "/StudyFusion/viewgroup", 
             {
-                state: {groupKeySS: groupKey, groupData: groupData}
+                state: {groupKey: groupKey, groupData: groupData}
             });
     };
     

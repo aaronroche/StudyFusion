@@ -1,16 +1,65 @@
 
 import React, {useState} from 'react';
+import Grid from '@mui/material/Grid';
 import app from "./Firebase";
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, ref, get, remove, child } from "firebase/database";
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import './ViewGroup.css'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function ViewGroup() {
     let [sessionArray, setSessionArray] = useState([]);
-    const groupKey = useLocation().state.groupKeySS;
+    const [email, setEmail] = useState(null);
+    const groupKey = useLocation().state.groupKey;
     const groupData = useLocation().state.groupData;
+    const auth = getAuth();
+    const navigate = useNavigate();
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setEmail(user.email);
+        }
+        else {
+
+        }
+    })
+
+    const leaveGroup = async () => {
+        // console.log("Here.");
+        const db = getDatabase(app);
+        const dbRef = (groupKey === null || groupKey === 0) ? ref(db, "groups/group1/groupMembers")
+         : ref(db, "groups/" + groupKey + "/groupMembers");
+
+        var userExists = false;
+        
+        get(ref(db, 'users')).then((usersData) => {
+            // console.log(usersData.val());
+            var thisUser;
+            Object.entries(usersData.val()).forEach((user) => {
+                // console.log(user);
+                // console.log(user[1].email);
+                // console.log(email);
+                if (user[1].email === email) {
+                    thisUser = user[0];
+                }
+            })
+            if (thisUser != null) {
+                const userRef = ref(db, 'users/' + thisUser);
+                get(userRef).then((foundUser) => {
+                    if (foundUser.val().groups != null) {
+                        remove(child(userRef, 'groups/' + groupKey));
+                        remove(child(dbRef, thisUser));
+                        
+                    }
+                })
+                // console.log(get(ref(db, 'groups/' + groupKey + '/groupMembers/' + thisUser)));
+            }
+          });
+
+        navigate("/StudyFusion/");
+    }
 
     const fetchData = async () => {
         const db = getDatabase(app);
@@ -23,6 +72,9 @@ export default function ViewGroup() {
           alert("error");
         }
     }
+
+    // console.log(groupKey);
+    // console.log(groupData);
 
     return (
 
@@ -54,12 +106,22 @@ export default function ViewGroup() {
                     ) )}
                 </div>
             </Stack>
-            <div className='create-a-ss'>
-                <Link to='/StudyFusion/studysession'
-                state= {{groupKeySS: groupKey, groupData: groupData}}>
-                    <button>Create a Study Session</button>
-                </Link>
-            </div>
+            <Stack direction ="row" spacing = {2}>
+                <Grid item xs={6}>
+                    <div className='create-a-ss'>
+                        <Link to='/StudyFusion/studysession'
+                        state= {{groupKeySS: groupKey, groupData: groupData}}>
+                            <button>Create a Study Session</button>
+                        </Link>
+                    </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <div className='create-a-ss'>
+                        <button onClick={leaveGroup}>Leave Group</button>
+                    </div>
+                </Grid>
+            </Stack>
+            
         </div>
     );
 }
