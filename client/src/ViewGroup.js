@@ -58,7 +58,7 @@ export default function ViewGroup() {
             }
           });
 
-        navigate("/StudyFusion/");
+        navigate("/");
     }
 
     const fetchData = async () => {
@@ -109,7 +109,7 @@ export default function ViewGroup() {
             <Stack direction ="row" spacing = {2}>
                 <Grid item xs={6}>
                     <div className='create-a-ss'>
-                        <Link to='/StudyFusion/studysession'
+                        <Link to='/studysession'
                         state= {{groupKeySS: groupKey, groupData: groupData}}>
                             <button>Create a Study Session</button>
                         </Link>

@@ -8,12 +8,15 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import app from "./Firebase";
 import { getDatabase, ref, set, push } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 import './CreateAGroup.css';
 
 export default function CreateAGroup() {
     let [inputValue1, setInputValue1] = useState("");
     let [inputValue2, setInputValue2] = useState("");
     let [inputValue3, setInputValue3] = useState("");
+
+    const navigate = useNavigate();
 
     function valuetext(value) {
         return `${value}°C`;
@@ -31,6 +34,8 @@ export default function CreateAGroup() {
         }).catch((error) => {
             alert("error: ", error.message);
         })
+
+        navigate("/mygroups")
     }
 
     return (

@@ -18,7 +18,7 @@ const LoginPage = () => {
         .then((userInfo) => {
           // console.log(userInfo);
         });
-      navigate("/StudyFusion/");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +33,7 @@ const LoginPage = () => {
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <button type="submit">Login</button>
                 </form>
-                <Link to="/StudyFusion/signup">Don't have an account? Sign up here.</Link>
+                <Link to="/signup">Don't have an account? Sign up here.</Link>
             </Stack>
         </div>
   );

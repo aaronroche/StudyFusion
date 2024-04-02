@@ -85,21 +85,23 @@ function MyGroupsGrid() {
                     userKey = userVal[0];
                     get(ref(db, 'users/' + userKey + '/groups')).then((groupSnap) => {
                         var current = 0;
-                        Object.entries(groupSnap.val()).forEach((group) => {
-                            if (current < max) {
-                                console.log(group);
-                                var groupRef = ref(db, "groups/" + group[0]);
-    
-                                var groupArray;
-                                get(groupRef).then((snapshotGroup) => {
-                                    // console.log(snapshotGroup.val())
-                                    groupArray = [group[0], snapshotGroup.val()];
-                                    // console.log(groupArray);
-                                    setGroupData((groups) => [...groups, groupArray]);
-                                    current++;
-                                });
-                            }
-                        });
+                        if (groupSnap.val() != null) {
+                            Object.entries(groupSnap.val()).forEach((group) => {
+                                if (current < max) {
+                                    console.log(group);
+                                    var groupRef = ref(db, "groups/" + group[0]);
+        
+                                    var groupArray;
+                                    get(groupRef).then((snapshotGroup) => {
+                                        // console.log(snapshotGroup.val())
+                                        groupArray = [group[0], snapshotGroup.val()];
+                                        // console.log(groupArray);
+                                        setGroupData((groups) => [...groups, groupArray]);
+                                        current++;
+                                    });
+                                }
+                            });
+                        }
                         // console.log(groupData);
                         setNumGroups(current);
                         // console.log(numGroups);
@@ -213,7 +215,7 @@ function MyGroupsGrid() {
                 >
                     {groupData ? groupData.map(groupInfo => (
                         <div>
-                            <Link className="group-link" to="/StudyFusion/viewgroup" state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}}>
+                            <Link className="group-link" to="/viewgroup" state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}}>
                                     <Card sx={{ maxWidth: 345 }}>
                                         <CardActionArea>
                                             <CardMedia
@@ -261,11 +263,11 @@ function MyGroupsGrid() {
                                 alignItems="center"
                                 spacing={2}
                             >
-                                <Link to="/StudyFusion/searchgroup">
+                                <Link to="/searchgroup">
                                     <button>Search Groups</button>
                                 </Link>
 
-                                <Link to="/StudyFusion/createagroup">
+                                <Link to="/createagroup">
                                     <button>Create a Group</button>
                                 </Link>
                             </Stack>
