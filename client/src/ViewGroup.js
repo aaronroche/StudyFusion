@@ -121,18 +121,18 @@ export default function ViewGroup() {
                     <h3>Upcoming Study Sessions</h3>
                     <button onClick={fetchData}>Display Sessions</button>
                     {sessionArray.map((item, index) => (
-    <p key={index}>
-        Session on {item.month}-{item.day} {new Date(item.time).toLocaleString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            timeZoneName: 'short'
-        })} {item.location}
-    </p>
-))}
+                        <p key={index}>
+                            Session on {item.month}-{item.day} {new Date(item.time).toLocaleString('en-US', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                                timeZoneName: 'short'
+                            })} {item.location}
+                        </p>
+                    ))}
                 </div>
             </Stack>
             <Stack direction="row" spacing={2}>
