@@ -28,7 +28,7 @@ export default function ScheduleSS() {
 
     const [month, setMonth] = useState('');
     const [day, setDay] = useState('');
-    const [time, setTime] = React.useState(dayjs('2022-04-17T15:30'));
+    const [time, setTime] = React.useState(dayjs());
 
     const createSS = (e) => {
         navigate(
@@ -42,20 +42,19 @@ export default function ScheduleSS() {
         const db = getDatabase(app);
         const newDocRef = push(ref(db, "groups/" + groupKey +"/sessions"));
         set(newDocRef, {
-          month: month,
-          day: day,
-          time: time,
-          location: inputValue4,
-          zoomLink: inputValue5
-
-        }).then( () => {
-          alert("data saved successfully")
+            month: month,
+            day: day,
+            time: time.format(),
+            location: inputValue4,
+            zoomLink: inputValue5
+        }).then(() => {
+            alert("data saved successfully")
         }).catch((error) => {
-          alert("error: ", error.message);
+            alert("error: ", error.message);
         })
-
+    
         createSS();
-    }
+    }    
 
     const cancel = () => {
         navigate("/StudyFusion/viewgroup", {
@@ -146,11 +145,11 @@ export default function ScheduleSS() {
                     <FormControl style={{minWidth: 175}}>
                         <h3 className='class-title'>Time</h3>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker
-                                label="Controlled picker"
-                                value={time}
-                                onChange={(newTime) => setTime(dayjs(newTime).format('HH:mm'))}
-                            />
+                        <TimePicker
+                            label="Controlled picker"
+                            value={time}
+                            onChange={(newTime) => setTime(newTime)}
+                        />
                         </LocalizationProvider>
                     </FormControl>
                 </Stack>
