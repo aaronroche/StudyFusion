@@ -71,11 +71,17 @@
     padding-right: 10px;
 }
 
-.submit-session {
-    margin-top: 20px;
+.submit-session, .cancel-session {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
-.submit-session-btn {
+.submit-session-btn, .cancel-session-btn {
     display: flex;
     justify-content: center;
+}
+
+.submit-session:hover, .cancel-session:hover {
+    background-color: #2405d4; 
 }

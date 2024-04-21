@@ -6,8 +6,6 @@ import reportWebVitals from './reportWebVitals';
 // import MyGroupsGrid from './MyGroupsGrid';
 // import CreateAGroup from './CreateAGroup';
 import App from './App';
-import ScheduleSS from './ScheduleSS';
-import ViewGroup from './ViewGroup';
 import { HashRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,7 +1,7 @@
 import Stack from '@mui/material/Stack';
 import StudyFusionLogo from './StudyFusionLogo.png';
 import UMLLogo from './uml-logo.png';
-import './Home.css'
+import './home.css'
 
 export default function ScheduleSS() {
   return (
@@ -16,7 +16,7 @@ export default function ScheduleSS() {
               <img
                   className="d-inline-block align-top"
                   src={StudyFusionLogo}
-                  width="400" height="400"
+                  width="300" height="300"
                   alt="study fusion logo"
               />
               <div>
@@ -33,7 +33,7 @@ export default function ScheduleSS() {
                       <img
                           className="d-inline-block align-top"
                           src={UMLLogo}
-                          width="400" height="400"
+                          width="350" height="350"
                           alt="study fusion logo"
                       />
                       <h2 className='study-desc'>

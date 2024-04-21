@@ -56,7 +56,7 @@ const ProfilePage = () => {
       const downloadURL = await getDownloadURL(storageReference);
 
       const db = getDatabase(app);
-      set(ref(db, `users/user0/profileImage`), downloadURL);
+      set(ref(db, 'users/' + userKey + '/profileImage'), downloadURL);
     }
   };
 
@@ -70,7 +70,7 @@ const ProfilePage = () => {
 
   const handleSaveChanges = (editedData) => {
     const db = getDatabase(app);
-    set(ref(db, 'users/user0'), editedData); 
+    set(ref(db, 'users/' + userKey), editedData); 
     setIsEditing(false);
   };
 

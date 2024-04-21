@@ -57,6 +57,12 @@ export default function ScheduleSS() {
         createSS();
     }
 
+    const cancel = () => {
+        navigate("/StudyFusion/viewgroup", {
+            state: {groupKey: groupKey, groupData: groupData}
+        });
+    }
+
     console.log(time);
 
     return (
@@ -177,6 +183,7 @@ export default function ScheduleSS() {
 
                 <div className='submit-session-btn'>
                     <button onClick={saveData}  className='submit-session'>Submit</button>
+                    <button onClick={cancel} className='cancel-session'>Cancel</button>
                 </div>
             </div>
         </div>

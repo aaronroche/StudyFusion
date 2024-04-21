@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './contact.css';
+import Popup from './contactPopup'; // Import the Popup component
 
 const ContactUs = () => {
   const [firstName, setFirstName] = useState('');
@@ -7,6 +8,7 @@ const ContactUs = () => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [message, setMessage] = useState('');
+  const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the popup
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,6 +20,12 @@ const ContactUs = () => {
     setEmail('');
     setPhoneNumber('');
     setMessage('');
+    // Display the popup
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -47,6 +55,7 @@ const ContactUs = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+      {showPopup && <Popup onClose={closePopup} />} {/* Render the popup if showPopup is true */}
     </div>
   );
 };

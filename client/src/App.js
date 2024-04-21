@@ -8,7 +8,7 @@ import ScheduleSS from './ScheduleSS';
 import './App.css';
 import ViewGroup from "./ViewGroup";
 import ProfilePage from "./profile";
-import Home from './Home';
+import Home from './home';
 import ContactUs from './contact'
 
 function App() {
