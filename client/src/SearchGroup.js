@@ -77,15 +77,6 @@ function SearchGroup() {
   // }
 
   const auth = getAuth();
-  onAuthStateChanged(auth, function(user) {
-      if (user) {
-          // console.log(user.email);
-          setEmail(user.email);
-      }
-      else {
-
-      }
-  })
 
   const userQuery = query(userRef, orderByChild('email'));
 
@@ -94,7 +85,8 @@ function SearchGroup() {
   // const emailQuery = query(userQuery, equalTo(email, "email"));
 
 
-  const performSearch = (someTerm) => {
+  const performSearch = (e, someTerm) => {
+    e.preventDefault();
     localStorage.setItem('SearchTerm', someTerm);
     window.location.reload();
   }
@@ -193,6 +185,16 @@ function SearchGroup() {
   }
 
   useEffect(() => {
+    onAuthStateChanged(auth, function(user) {
+      if (user) {
+          // console.log(user.email);
+          setEmail(user.email);
+      }
+      else {
+
+      }
+  })
+
     return onValue(groupRef, (snapshot) => {
       var searchedTerm = localStorage.getItem('SearchTerm') || 1;
       var groupSnap = snapshot.val();
@@ -220,7 +222,7 @@ function SearchGroup() {
 
       }
     });
-  }, []);
+  }, [auth]);
 
   // useEffect(() => {
   //   if (!imagesLoaded) {
@@ -301,9 +303,9 @@ function SearchGroup() {
         </div>
         <div>
           Search
-          <form>
+          <form onSubmit={(e) => performSearch(e, groupSearchTerm)}>
             <input type="groupSearchTerm" placeholder="Search" value={groupSearchTerm} onChange={(e) => setGroupSearchTerm(e.target.value)} />
-            <button type="submit" onClick={() => performSearch(groupSearchTerm)}>Search</button>
+            <button type="submit">Search</button>
           </form>
           </div>
         <Box sx={{flexGrow: 1}}>
