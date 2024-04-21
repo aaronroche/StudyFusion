@@ -15,6 +15,7 @@ export default function CreateAGroup() {
     let [inputValue1, setInputValue1] = useState("");
     let [inputValue2, setInputValue2] = useState("");
     let [inputValue3, setInputValue3] = useState("");
+    let [inputValue4, setInputValue4] = useState("");
 
     const navigate = useNavigate();
 
@@ -28,7 +29,8 @@ export default function CreateAGroup() {
         set(newDocRef, {
             class: inputValue1,
             groupName: inputValue2,
-            groupSize: inputValue3
+            groupSize: inputValue3,
+            groupDesc: inputValue4
         }).then(() => {
             alert("data saved successfully")
         }).catch((error) => {
@@ -89,7 +91,7 @@ export default function CreateAGroup() {
                                 <h3>Description</h3>
                                 <form>
                                     <label>
-                                        <input className='desc-field' type="text" name="name" />
+                                        <input onChange={(e) => setInputValue4(e.target.value)} className='desc-field' type="text" name="name" />
                                     </label>
                                 </form>
                                 <div className='submit-info-container'>

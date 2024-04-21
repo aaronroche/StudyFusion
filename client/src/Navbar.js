@@ -53,10 +53,10 @@ const Navbar = () => {
                     ) : (
                         // If not logged in, show sign-in and sign-up links
                         <>
-                            <div className="mr-3">
+                            <div className="mr-3 nav-item">
                                 <Link className="nav-link" to="/signup">Sign Up</Link>
                             </div>
-                            <div>
+                            <div className="nav-item">
                                 <Link className="nav-link" to="/login">Login</Link>
                             </div>
                         </>
