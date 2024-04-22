@@ -45,22 +45,7 @@ const Navbar = () => {
                 </div>
                 {/* Conditionally render sign-in/sign-out based on authentication status */}
                 <div className="ml-auto d-flex">
-                    {AuthInfo.isLoggedIn ? (
-                        // If logged in, show sign-out button
-                        <div>
-                            <button className="btn btn-link nav-link" onClick={AuthInfo.handleLogout}>Sign Out</button>
-                        </div>
-                    ) : (
-                        // If not logged in, show sign-in and sign-up links
-                        <>
-                            <div className="mr-3 nav-item">
-                                <Link className="nav-link" to="/signup">Sign Up</Link>
-                            </div>
-                            <div className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
-                            </div>
-                        </>
-                    )}
+                    <AuthInfo />
                 </div>
             </nav>
             <Outlet />
