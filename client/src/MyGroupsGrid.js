@@ -39,7 +39,10 @@ const dbRefUsers = ref(db, "users");
 
 function MyGroupsGrid() {
     const [age, setClass] = useState('');
-    const [groupSubject, setGroupSubject] = useState('');
+    const previousSubject = localStorage.getItem('SubjectTerm') || 1;
+    const [groupSubject, setGroupSubject] = useState((previousSubject == 1 || previousSubject == ''|| previousSubject.length < 1)
+    ? ("") : (previousSubject));
+    const previousTerm = localStorage.getItem('FilterTerm') || 1;
     const [groupSearchTerm, setGroupSearchTerm] = useState('');
     const [groupData, setGroupData] = useState([]);
     const [numGroups, setNumGroups] = useState(0);
@@ -58,7 +61,7 @@ function MyGroupsGrid() {
 
     const performSearch = (e, someTerm, someSubject) => {
         e.preventDefault();
-        localStorage.setItem('SearchTerm', someTerm);
+        localStorage.setItem('FilterTerm', someTerm);
         localStorage.setItem('SubjectTerm', someSubject)
         window.location.reload();
       }
@@ -66,7 +69,7 @@ function MyGroupsGrid() {
     const auth = getAuth();
 
     const displayUserGroups = (userEmail) => {
-        var searchedTerm = localStorage.getItem('SearchTerm') || 1;
+        var filteredTerm = localStorage.getItem('FilterTerm') || 1;
         var subjectTerm = localStorage.getItem('SubjectTerm') || 1;
         var userKey;
         get(dbRefUsers).then((snapshot) => {
@@ -82,7 +85,7 @@ function MyGroupsGrid() {
         
                                     var groupArray;
                                     get(groupRef).then((snapshotGroup) => {
-                                        if ((searchedTerm == 1 || searchedTerm == ''|| searchedTerm.length < 1)) {
+                                        if ((filteredTerm == 1 || filteredTerm == ''|| filteredTerm.length < 1)) {
                                             if ((subjectTerm == 1 || subjectTerm == '' || subjectTerm.length < 1)) {
                                                 groupArray = [group[0], snapshotGroup.val()];
                                                 setGroupData((groups) => [...groups, groupArray]);
@@ -94,7 +97,7 @@ function MyGroupsGrid() {
                                                 current++;
                                             }
                                         }
-                                        else if (snapshotGroup.val().groupName.includes(searchedTerm)) {
+                                        else if (snapshotGroup.val().groupName.includes(filteredTerm)) {
                                             if ((subjectTerm == 1 || subjectTerm == '' || subjectTerm.length < 1)) {
                                                 groupArray = [group[0], snapshotGroup.val()];
                                                 setGroupData((groups) => [...groups, groupArray]);
@@ -190,6 +193,8 @@ function MyGroupsGrid() {
                                                 <div className='select-container'>
                                                     <FormControl fullWidth>
                                                         <TextField id="demo-simple-select-label" label="Search"
+                                                        placeholder={(previousTerm == 1 || previousTerm == ''|| previousTerm.length < 1)
+                                                        ? ("Search") : (previousTerm)}
                                                         value={groupSearchTerm} onChange={(e) => setGroupSearchTerm(e.target.value)}
                                                         onKeyUp={(e) => handleKeyUp(e, groupSearchTerm, groupSubject)}></TextField>
                                                     </FormControl>

@@ -62,6 +62,7 @@ const userRef = db_ref(db, 'users');
 
 function SearchGroup() {
   const [dbGroups, setDbGroups] = useState([]);
+  const previousTerm = localStorage.getItem('SearchTerm') || 1;
   const [groupSearchTerm, setGroupSearchTerm] = useState('');
   const [numGroups, setNumGroups] = useState(0);
   const [email, setEmail] = useState(null);
@@ -304,7 +305,8 @@ function SearchGroup() {
         <div>
           Search
           <form onSubmit={(e) => performSearch(e, groupSearchTerm)}>
-            <input type="groupSearchTerm" placeholder="Search"
+            <input type="groupSearchTerm" placeholder={(previousTerm == 1 || previousTerm == '' || previousTerm.length < 1)
+            ? ("Search") : previousTerm}
             value={groupSearchTerm} onChange={(e) => setGroupSearchTerm(e.target.value)} />
             <button type="submit">Search</button>
           </form>
