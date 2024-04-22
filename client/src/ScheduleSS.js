@@ -51,6 +51,23 @@ export default function ScheduleSS() {
     const cancel = () => {
         navigate("/StudyFusion/viewgroup", { state: { groupKey: groupKey, groupData: groupData } });
     };
+    
+    const months = [
+        { value: 'January', label: 'January' },
+        { value: 'February', label: 'February' },
+        { value: 'March', label: 'March' },
+        { value: 'April', label: 'April' },
+        { value: 'May', label: 'May' },
+        { value: 'June', label: 'June' },
+        { value: 'July', label: 'July' },
+        { value: 'August', label: 'August' },
+        { value: 'September', label: 'September' },
+        { value: 'October', label: 'October' },
+        { value: 'November', label: 'November' },
+        { value: 'December', label: 'December' },
+    ];
+
+    const days = [...Array(31).keys()].map(day => ({ value: day + 1, label: (day + 1).toString() }));
 
     return (
         <div className="container">
@@ -65,7 +82,9 @@ export default function ScheduleSS() {
                                 value={month}
                                 onChange={(e) => setMonth(e.target.value.toString())}
                             >
-                                {/* Menu items */}
+                                {months.map((month) => (
+                                    <MenuItem key={month.value} value={month.value}>{month.label}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                         <FormControl>
@@ -74,7 +93,9 @@ export default function ScheduleSS() {
                                 value={day}
                                 onChange={(e) => setDay(e.target.value.toString())}
                             >
-                                {/* Menu items */}
+                                {days.map((day) => (
+                                    <MenuItem key={day.value} value={day.value}>{day.label}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                         <FormControl>
