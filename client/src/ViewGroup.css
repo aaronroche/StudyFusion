@@ -1,25 +1,50 @@
 .group-info-container {
-    margin-left: 300px;
-    margin-right: 300px;
+    margin-left: 100px; /* Adjust left margin */
+    margin-right: 100px; /* Adjust right margin */
     margin-top: 50px;
     padding: 20px;
+    background-color: #f9f9f9; /* Add background color */
+    border-radius: 10px; /* Add border radius */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
 }
 
 .group-title {
-    text-align: left;
+    font-size: 24px; /* Increase font size */
+    font-weight: bold; /* Add font weight */
+    margin-bottom: 10px; /* Add bottom margin */
 }
 
 .desc {
-    text-align: left;
+    font-size: 16px; /* Adjust font size */
+    margin-bottom: 20px; /* Add bottom margin */
 }
 
 .desc-container {
-    text-align: left;
-    width: 800px;
+    width: 100%; /* Adjust width */
 }
 
 .create-a-ss {
-    margin: 50px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-a-ss button {
+    margin: 0px 30px 0px 150px;
+    padding: 12px 24px; /* Increase button padding */
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-a-ss button:hover {
+    background-color: #0056b3;
 }
 
 .session-container {
@@ -30,18 +55,22 @@
 
 .session-item {
     background-color: #f4f4f4;
-    padding: 10px;
-    border-radius: 8px;
+    padding: 20px; /* Increase padding */
+    border-radius: 10px; /* Add border radius */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
 }
 
 .session-date {
     font-weight: bold;
+    margin-bottom: 5px; /* Add bottom margin */
 }
 
 .session-time {
     margin-top: 5px;
+    font-size: 14px; /* Adjust font size */
 }
 
 .session-location {
     margin-top: 5px;
+    font-size: 14px; /* Adjust font size */
 }

@@ -63,35 +63,7 @@ function MyGroupsGrid() {
         window.location.reload();
       }
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const db = getDatabase(app);
-    //         const dbRef = ref(db, "groups/");
-    //         var current = 0;
-    //         try {
-    //             onValue(dbRef, (snapshot) => {
-    //                 Object.entries(snapshot.val()).forEach((group) => {
-    //                     if (current < max) {
-    //                         console.log(group);
-    //                         setGroupData((groups) => [...groups, group]);
-    //                         current++;
-    //                       }
-    //                 });
-    //                 setNumGroups(current);
-    //             })
-    //             // const snapshot = await get(dbRef);
-                
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, []);
-
     const auth = getAuth();
-
-    // console.log("Email: " + email);
 
     const displayUserGroups = (userEmail) => {
         var searchedTerm = localStorage.getItem('SearchTerm') || 1;
@@ -106,51 +78,39 @@ function MyGroupsGrid() {
                         if (groupSnap.val() != null) {
                             Object.entries(groupSnap.val()).forEach((group) => {
                                 if (current < max) {
-                                    // console.log(group);
                                     var groupRef = ref(db, "groups/" + group[0]);
         
                                     var groupArray;
                                     get(groupRef).then((snapshotGroup) => {
                                         if ((searchedTerm == 1 || searchedTerm == ''|| searchedTerm.length < 1)) {
                                             if ((subjectTerm == 1 || subjectTerm == '' || subjectTerm.length < 1)) {
-                                                // console.log(snapshotGroup.val())
                                                 groupArray = [group[0], snapshotGroup.val()];
-                                                // console.log(groupArray);
                                                 setGroupData((groups) => [...groups, groupArray]);
                                                 current++;
                                             }
                                             else if (snapshotGroup.val().subject.includes(subjectTerm)) {
-                                                // console.log(snapshotGroup.val())
                                                 groupArray = [group[0], snapshotGroup.val()];
-                                                // console.log(groupArray);
                                                 setGroupData((groups) => [...groups, groupArray]);
                                                 current++;
                                             }
                                         }
                                         else if (snapshotGroup.val().groupName.includes(searchedTerm)) {
                                             if ((subjectTerm == 1 || subjectTerm == '' || subjectTerm.length < 1)) {
-                                                // console.log(snapshotGroup.val())
                                                 groupArray = [group[0], snapshotGroup.val()];
-                                                // console.log(groupArray);
                                                 setGroupData((groups) => [...groups, groupArray]);
                                                 current++;
                                             }
                                             else if (snapshotGroup.val().subject.includes(subjectTerm)) {
-                                                // console.log(snapshotGroup.val())
                                                 groupArray = [group[0], snapshotGroup.val()];
-                                                // console.log(groupArray);
                                                 setGroupData((groups) => [...groups, groupArray]);
                                                 current++;
                                             }
                                         }
-
                                     });
                                 }
                             });
                         }
-                        // console.log(groupData);
                         setNumGroups(current);
-                        // console.log(numGroups);
                     });
                     return;
                 }
@@ -169,31 +129,26 @@ function MyGroupsGrid() {
         }
     });
         return () => { onAuthDone();}
-        // displayUserGroups();
-            // onValue(dbRef, (snapshot) => {
-            //     var current = 0;
-            //     setNumGroups(current);
-            //     Object.entries(snapshot.val()).forEach((group) => {
-            //         if (current < max) {
-            //             console.log(group);
-            //             var groupRef = ref(db, "groups/" + group[0]);
-    
-            //             var groupArray;
-            //             onValue(groupRef, (snapshotGroup) => {
-            //                 console.log(snapshotGroup.val())
-            //                 groupArray = [group[0], snapshotGroup.val()];
-            //                 console.log(groupArray);
-            //                 setGroupData((groups) => [...groups, groupArray]);
-            //                 current++;
-            //             });
-            //         }
-            //     });
-            //     setNumGroups(current);
-            //     })
     }, []);
 
     return (
         <div className='my-groups-container'>
+            <div className='search-groups-btn'>
+                <Stack 
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={2}
+                >
+                    <Link to="/searchgroup">
+                        <button>Search Groups</button>
+                    </Link>
+
+                    <Link to="/createagroup">
+                        <button>Create a Group</button>
+                    </Link>
+                </Stack>
+            </div>
             <Box sx={{ flexGrow: 1 }}>
                 <h2 className='my-groups-title'>My Groups</h2>
                 <Grid container spacing={2}>
@@ -230,7 +185,6 @@ function MyGroupsGrid() {
                                                                 <FormControlLabel control={<Radio />} label="Any" value="" />
                                                             </RadioGroup>
                                                         </FormControl>
-                                                        
                                                     </FormGroup>
                                                 </div>
                                                 <div className='select-container'>
@@ -247,76 +201,43 @@ function MyGroupsGrid() {
                             </Grid>
 
                             <Grid item xs={6} key={index}>
-                            <Box
-                    sx={{
-                        p: 2,
-                        borderRadius: 2,
-                        bgcolor: 'background.default',
-                        display: 'grid',
-                        gridTemplateColumns: { md: '1fr 1fr' },
-                        gap: 2,
-                    }}
-                >
-                    {groupData ? groupData.map(groupInfo => (
-                        <div>
-                            <Link className="group-link" to="/viewgroup" state= {{groupKey: groupInfo[0], groupData: groupInfo[1]}}>
-                                    <Card sx={{ maxWidth: 345 }}>
-                                        <CardActionArea>
-                                            <CardMedia
-                                                component="img"
-                                                height="140"
-                                                image={groupInfo[1].imageUrl}
-                                                alt="chemistry"
-                                            />
-                                            <CardContent>
-                                                <Typography gutterBottom variant="h5" component="div">
-                                                    {groupInfo[1].groupName}
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    {groupInfo[1].groupDesc}
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Link>
-                        </div>
-                    )) : null }
-                    { Array.from(Array(max - numGroups), (e, i) => (
-                        <div>
-                            <Card sx={{ maxWidth: 345 }}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                                component="img"
-                                                height="140"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                            </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                </Card>
-                        </div>
-                    ))}
-                </Box>
-                            <div className='search-groups-btn'>
-                            <Stack 
-                                direction="row"
-                                justifyContent="center"
-                                alignItems="center"
-                                spacing={2}
-                            >
-                                <Link to="/searchgroup">
-                                    <button>Search Groups</button>
-                                </Link>
+    <Box
+        sx={{
+            p: 2,
+            borderRadius: 2,
+            bgcolor: 'background.default',
+            display: 'grid',
+            gridTemplateColumns: { md: '1fr 1fr' },
+            gap: 2,
+        }}
+    >
+        {groupData.map((groupInfo, index) => (
+            <div key={index}>
+                <Link className="group-link" to="/viewgroup" state={{ groupKey: groupInfo[0], groupData: groupInfo[1] }}>
+                    <Card sx={{ maxWidth: 345 }}>
+                        <CardActionArea>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={groupInfo[1].imageUrl}
+                                alt="chemistry"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {groupInfo[1].groupName}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {groupInfo[1].groupDesc}
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                    </Card>
+                </Link>
+            </div>
+        ))}
+    </Box>
+</Grid>
 
-                                <Link to="/createagroup">
-                                    <button>Create a Group</button>
-                                </Link>
-                            </Stack>
-                            </div>
-                            </Grid>
                         </ThemeProvider>
                     ))}
                 </Grid>

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { getDatabase, ref, child, onValue, off, set } from 'firebase/database'; 
-import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'; 
+import { getDatabase, ref, child, onValue, off, set} from 'firebase/database'; 
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 import app from './Firebase.js'; 
 import './profile.css';
 import Modal from './editprofile.js'; 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [userKey, setUserKey] = useState(null);
-  const [newProfilePicture, setNewProfilePicture] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -43,30 +46,26 @@ const ProfilePage = () => {
     };
   }, [userKey]);
 
-  const handleProfilePictureChange = (e) => {
-    const imageFile = e.target.files[0];
-    setNewProfilePicture(imageFile);
-  };
+  const handleProfilePictureChange = async (event) => {
+    const file = event.target.files[0];
+    const storage = getStorage(app);
+    const uploadStorageRef = storageRef(storage, 'profileImages/' + file.name); // Adjusted storage reference
+    await uploadBytes(uploadStorageRef, file);
+    const downloadURL = await getDownloadURL(uploadStorageRef);
+    const db = getDatabase(app);
+    const userImageRef = child(ref(db, `users/${userKey}`), 'profileImage'); // Update the user's profileImage node
+    set(userImageRef, downloadURL); // Update profile picture URL in the database
 
-  const uploadProfilePicture = async () => {
-    if (newProfilePicture && newProfilePicture.name) {
-      const storage = getStorage(app); 
-      const storageRef = ref(storage, `profileImage/${newProfilePicture.name}`); 
-      await uploadBytes(storageRef, newProfilePicture);
-      
-      const downloadURL = await getDownloadURL(storageRef);
-  
-      const db = getDatabase(app);
-      const userImageRef = child(ref(db, `users/${userKey}`), 'profileImage'); // Navigate to the profileImage node under the user's data
-      set(userImageRef, downloadURL); // Update profile picture URL in the database
-  
-      // Update profile picture URL in the userData state
-      setUserData(prevUserData => ({
-        ...prevUserData,
-        profileImage: downloadURL
-      }));
-    }
-  };
+    setSnackbarMessage('Image uploaded successfully');
+    setOpenSnackbar(true);
+};
+
+const handleCloseSnackbar = (event, reason) => {
+  if (reason === 'clickaway') {
+      return;
+  }
+  setOpenSnackbar(false);
+};
   
   
   const handleEdit = () => {
@@ -87,14 +86,14 @@ const ProfilePage = () => {
     <div className="profile-container">
       <h1>Profile</h1>
       <div className="profile-picture-container">
-    {userData?.profileImage && (
-      <img
-        src={userData.profilePicture}
-        alt="Profile"
-        className="profile-picture"
-      />
-    )}
-  </div>
+        {userData?.profileImage && (
+          <img
+            src={userData.profileImage}
+            alt="Profile"
+            className="profile-picture"
+          />
+        )}
+      </div>
       <div className="profile-form">
         <label htmlFor="username">Username:</label>
         <input
@@ -124,21 +123,13 @@ const ProfilePage = () => {
           value={userData?.major || ''}
           disabled
         />
-        <label htmlFor="profilePicture">Profile Picture:</label>
-        {userData?.profileImage && (
-          <img
-            src={userData.profileImage}
-            alt="Profile"
-            className="profile-picture"
-          />
-        )}
-        <input
-          type="file"
-          id="profilePicture"
-          accept="image/*"
-          onChange={handleProfilePictureChange}
-        />
-        <button onClick={uploadProfilePicture}>Upload Profile Picture</button>
+        <label htmlFor="profilePicture">Update Profile Picture:</label>
+      <input
+        type="file"
+        id="profilePicture"
+        accept="image/*"
+        onChange={handleProfilePictureChange}
+      />
         <button onClick={handleEdit}>Edit Profile</button>
       </div>
 
@@ -149,6 +140,21 @@ const ProfilePage = () => {
           <button onClick={handleSaveChanges}>Save Changes</button>
         </Modal>
       )}
+<Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+            >
+                <MuiAlert
+                    elevation={6}
+                    variant="filled"
+                    onClose={handleCloseSnackbar}
+                    severity="success"
+                >
+                    {snackbarMessage}
+                </MuiAlert>
+            </Snackbar>
+
     </div>
   );
 };

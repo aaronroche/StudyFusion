@@ -49,7 +49,7 @@ export default function ScheduleSS() {
     };
 
     const cancel = () => {
-        navigate("/StudyFusion/viewgroup", { state: { groupKey: groupKey, groupData: groupData } });
+        navigate("/viewgroup", { state: { groupKey: groupKey, groupData: groupData } });
     };
     
     const months = [
