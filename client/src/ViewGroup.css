@@ -21,3 +21,27 @@
 .create-a-ss {
     margin: 50px;
 }
+
+.session-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.session-item {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.session-date {
+    font-weight: bold;
+}
+
+.session-time {
+    margin-top: 5px;
+}
+
+.session-location {
+    margin-top: 5px;
+}

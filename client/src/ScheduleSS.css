@@ -1,85 +1,63 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+    background-color: #6ED1FC;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.date-time, .location, .notification, .zoom-link, .buttons {
+    margin-bottom: 20px;
+}
 
 .title {
-    padding-left: 275px;
-    padding-top: 10px;
-    padding-bottom: 30px;
+    font-size: 50px;
+    margin-bottom: 20px;
 }
 
-.blue-box {
-    width: 900px;
-    height: 470px;
-    background-color: #6ED1FC;
-    margin-top: -495px;
-    margin-left: auto;
-    margin-right: auto;
+.date-title, .class-title, .location-title, .notification-title, .zoom-title {
+    text-align: center;
+    margin-bottom: 10px;
 }
 
-.dark-blue-box {
-    width: 900px;
-    height: 475px;
+.location-input, .zoom-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.location-button {
+    width: 100%;
+    padding: 8px;
     background-color: #032B43;
-    margin-left: 290px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.date-title {
-    padding-top: 20px;
-    text-align: center;
-}
-
-.class-title {
-    text-align: center;
-}
-
-.location-label {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.location-text {
-    font-size: larger;
-    font-weight: 600;
-    padding-top: 30px;
-    padding-left: 143px;
+.buttons {
     display: flex;
-    align-items: center;
-}
-
-.submit-location {
-    margin-left: 10px;
-}
-
-#name {
-    width: 365px;
-}
-
-#name1 {
-    width: 505px;
-}
-
-.checkbox-notif {
-    padding-top: 5px;
-}
-
-.zoom-link {
-    font-weight: 600;
-    padding-top: 5px;
-    padding-left: 143px;
-}
-
-.zoom-label {
-    padding-left: 10px;
-    padding-right: 10px;
+    justify-content: space-between;
 }
 
 .submit-session, .cancel-session {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-}
-
-.submit-session-btn, .cancel-session-btn {
-    display: flex;
-    justify-content: center;
+    padding: 8px 20px;
+    background-color: #032B43;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .submit-session:hover, .cancel-session:hover {

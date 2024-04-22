@@ -49,16 +49,17 @@ export default function CreateAGroup() {
                         <Grid item xs={6}>
                             <Stack direction="column" spacing={3}>
                                 <FormControl fullWidth>
-                                    <h3 className='class-title'>Class</h3>
+                                    <h3 className='class-title'>Subject</h3>
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
                                         value={inputValue1}
                                         onChange={(e) => setInputValue1(e.target.value.toString())}
                                     >
-                                        <MenuItem value={"CHEM 1210"}>CHEM 1210</MenuItem>
-                                        <MenuItem value={"COMP 2040"}>COMP 2040</MenuItem>
-                                        <MenuItem value={"COMP 4620"}>COMP 4620</MenuItem>
+                                        <MenuItem value={"Math"}>Math</MenuItem>
+                                        <MenuItem value={"Science"}>Science</MenuItem>
+                                        <MenuItem value={"Engineering"}>Engineering</MenuItem>
+                                        <MenuItem value={"Other"}>Other</MenuItem>
                                     </Select>
                                 </FormControl>
                                 <div className='textfield-container'>

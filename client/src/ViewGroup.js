@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import app from "./Firebase";
 import { getDatabase, ref, get, remove, child, update } from "firebase/database";
@@ -20,8 +20,8 @@ export default function ViewGroup() {
     const groupData = useLocation().state.groupData;
     const auth = getAuth();
     const navigate = useNavigate();
-
     const storage = getStorage(app);
+    const [groupMembersInfo, setGroupMembersInfo] = useState([]);
 
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
@@ -99,6 +99,32 @@ export default function ViewGroup() {
         }
     }
 
+    useEffect(() => {
+        console.log("groupData:", groupData);
+        if (groupData && groupData.groupMembers && typeof groupData.groupMembers === 'object') {
+            const memberKeys = Object.keys(groupData.groupMembers);
+            const membersPromises = memberKeys.map(memberKey => {
+                const userRef = ref(getDatabase(app), `users/${memberKey}`);
+                return get(userRef).then(snapshot => {
+                    if (snapshot.exists()) {
+                        return { key: memberKey, userData: snapshot.val() };
+                    } else {
+                        return null;
+                    }
+                });
+            });
+    
+            Promise.all(membersPromises).then(memberData => {
+                const filteredMemberData = memberData.filter(member => member !== null);
+                setGroupMembersInfo(filteredMemberData);
+            }).catch(error => {
+                console.error("Error retrieving group members:", error);
+            });
+        } else {
+            console.error("Invalid groupData or groupMembers is not an object:", groupData);
+        }
+    }, [groupData]);    
+
     // console.log(groupKey);
     // console.log(groupData);
 
@@ -113,9 +139,21 @@ export default function ViewGroup() {
             <Stack direction="row" spacing={20} justifyContent="center" alignItems="start">
                 <Stack direction="column" spacing={1} justifyContent="center" alignItems="flex-start">
                     <h3>Members</h3>
-                    <Avatar>1</Avatar>
-                    <Avatar>2</Avatar>
-                    <Avatar>3</Avatar>
+                    <Stack direction="column" spacing={1}>
+                        {groupMembersInfo.map(member => (
+                            <div key={member.key} className="member-container">
+                                <Stack 
+                                        direction="row"
+                                        justifyContent="flex-start"
+                                        alignItems="center"
+                                        spacing={2}
+                                >
+                                    <Avatar alt={member.userData.username} src={member.userData.avatarUrl} />
+                                    <span className="username">{member.userData.username}</span>
+                                </Stack>
+                            </div>
+                        ))}
+                    </Stack>
                 </Stack>
                 <div>
                     <h3>Upcoming Study Sessions</h3>
