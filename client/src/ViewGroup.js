@@ -52,6 +52,13 @@ export default function ViewGroup() {
         }
     })
 
+    const editGroup = async () => {
+        navigate("/editgroup", { state: {
+            groupKey: groupKey,
+            groupData: groupData
+          }});
+    }
+
     const leaveGroup = async () => {
         // console.log("Here.");
         const db = getDatabase(app);
@@ -130,7 +137,7 @@ export default function ViewGroup() {
 
     return (
         <div className='group-info-container'>
-            <h1 className='group-title'>{groupData.groupName}</h1>
+            <h1 className='group-title'>{groupData.groupName} <button onClick={editGroup}>Edit</button></h1>
             <h3 className='desc'>Description</h3>
             <div className='desc-container'>
                 <h4>{groupData.groupDesc}</h4>

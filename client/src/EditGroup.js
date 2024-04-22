@@ -9,14 +9,16 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import app from "./Firebase";
 import { getDatabase, ref, set, push } from "firebase/database";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import './CreateAGroup.css';
 
-export default function CreateAGroup() {
-    let [inputValue1, setInputValue1] = useState("");
-    let [inputValue2, setInputValue2] = useState("");
+export default function EditGroup() {
+    const groupKey = useLocation().state.groupKey;
+    const groupData = useLocation().state.groupData;
+    let [inputValue1, setInputValue1] = useState(groupData.subject);
+    let [inputValue2, setInputValue2] = useState(groupData.groupName);
     let [inputValue3, setInputValue3] = useState("");
-    let [inputValue4, setInputValue4] = useState("");
+    let [inputValue4, setInputValue4] = useState(groupData.groupDesc);
 
     const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ export default function CreateAGroup() {
 
     const saveData = async () => {
         const db = getDatabase(app);
-        const newDocRef = push(ref(db, "groups"));
+        const newDocRef = ref(db, "groups/" + groupKey);
         set(newDocRef, {
             subject: inputValue1,
             groupName: inputValue2,
@@ -43,7 +45,7 @@ export default function CreateAGroup() {
 
     return (
         <div>
-            <h1 className='title'>Create a Group</h1>
+            <h1 className='title'>Edit Group</h1>
             <div className='dark-blue-box'></div>
             <div className='blue-box'>
                     <Grid container spacing={3}>
@@ -55,6 +57,8 @@ export default function CreateAGroup() {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
+                                        defaultValue={(groupData.subject === "" || groupData.subject === null) ?
+                                        ("Other") : (groupData.subject)}
                                         value={inputValue1}
                                         onChange={(e) => setInputValue1(e.target.value.toString())}
                                     >
@@ -68,7 +72,8 @@ export default function CreateAGroup() {
                                     <h3>Group Name</h3>
                                     <form>
                                         <label>
-                                            <input onChange={(e) => setInputValue2(e.target.value)} className='group-name-field' type="text" name="name" />
+                                            <input onChange={(e) => setInputValue2(e.target.value)}
+                                            className='group-name-field' type="text" name="name" placeholder={groupData.groupName} />
                                         </label>
                                     </form>
                                 </div>
@@ -79,7 +84,8 @@ export default function CreateAGroup() {
                                 <h3>Description</h3>
                                 <form>
                                     <label>
-                                        <input onChange={(e) => setInputValue4(e.target.value)} className='desc-field' type="text" name="name" />
+                                        <input onChange={(e) => setInputValue4(e.target.value)}
+                                        className='desc-field' type="text" name="name" placeholder={groupData.groupDesc} />
                                     </label>
                                 </form>
                                 <div className='submit-info-container'>
