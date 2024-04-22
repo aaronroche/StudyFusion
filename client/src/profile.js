@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue, off, set } from 'firebase/database'; 
+import { getDatabase, ref, child, onValue, off, set } from 'firebase/database'; 
 import { getStorage, uploadBytes, getDownloadURL } from 'firebase/storage'; 
 import app from './Firebase.js'; 
 import './profile.css';
@@ -31,16 +31,17 @@ const ProfilePage = () => {
   useEffect(() => {
     const db = getDatabase(app);
     const userRef = ref(db, 'users/' + userKey);
-
+  
     const unsubscribe = onValue(userRef, (snapshot) => {
       const data = snapshot.val();
+      console.log('User Data:', data); // Log user data to console
       setUserData(data);
     });
-
+  
     return () => {
       off(userRef, 'value', unsubscribe);
     };
-  }, [userKey]); 
+  }, [userKey]);
 
   const handleProfilePictureChange = (e) => {
     const imageFile = e.target.files[0];
@@ -48,18 +49,26 @@ const ProfilePage = () => {
   };
 
   const uploadProfilePicture = async () => {
-    if (newProfilePicture) {
+    if (newProfilePicture && newProfilePicture.name) {
       const storage = getStorage(app); 
-      const storageReference = ref(storage, `profileImage/${newProfilePicture.name}`); 
-      await uploadBytes(storageReference, newProfilePicture); 
+      const storageRef = ref(storage, `profileImage/${newProfilePicture.name}`); 
+      await uploadBytes(storageRef, newProfilePicture);
       
-      const downloadURL = await getDownloadURL(storageReference);
-
+      const downloadURL = await getDownloadURL(storageRef);
+  
       const db = getDatabase(app);
-      set(ref(db, 'users/' + userKey + '/profileImage'), downloadURL);
+      const userImageRef = child(ref(db, `users/${userKey}`), 'profileImage'); // Navigate to the profileImage node under the user's data
+      set(userImageRef, downloadURL); // Update profile picture URL in the database
+  
+      // Update profile picture URL in the userData state
+      setUserData(prevUserData => ({
+        ...prevUserData,
+        profileImage: downloadURL
+      }));
     }
   };
-
+  
+  
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -116,9 +125,9 @@ const ProfilePage = () => {
           disabled
         />
         <label htmlFor="profilePicture">Profile Picture:</label>
-        {userData?.profilePicture && (
+        {userData?.profileImage && (
           <img
-            src={userData.profilePicture}
+            src={userData.profileImage}
             alt="Profile"
             className="profile-picture"
           />

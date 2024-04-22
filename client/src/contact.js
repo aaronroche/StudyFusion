@@ -50,7 +50,7 @@ const ContactUs = () => {
           <input type="tel" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
         </div>
         <div className="form-group">
-          <label htmlFor="message">Anything Else?</label>
+          <label htmlFor="message">How Can We Help You?</label>
           <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} rows="4" />
         </div>
         <button type="submit">Submit</button>
