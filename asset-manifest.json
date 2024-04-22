@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/StudyFusion/static/css/main.a1eb5a9f.css",
-    "main.js": "/StudyFusion/static/js/main.ead8c46f.js",
+    "main.css": "/StudyFusion/static/css/main.fbf36583.css",
+    "main.js": "/StudyFusion/static/js/main.74e79e0c.js",
     "static/js/453.258b012d.chunk.js": "/StudyFusion/static/js/453.258b012d.chunk.js",
     "static/media/StudyFusionLogo.png": "/StudyFusion/static/media/StudyFusionLogo.4b26bcaffbcff9b5c40a.png",
     "static/media/uml-logo.png": "/StudyFusion/static/media/uml-logo.656f1e8ede92b26789b0.png",
     "index.html": "/StudyFusion/index.html",
-    "main.a1eb5a9f.css.map": "/StudyFusion/static/css/main.a1eb5a9f.css.map",
-    "main.ead8c46f.js.map": "/StudyFusion/static/js/main.ead8c46f.js.map",
+    "main.fbf36583.css.map": "/StudyFusion/static/css/main.fbf36583.css.map",
+    "main.74e79e0c.js.map": "/StudyFusion/static/js/main.74e79e0c.js.map",
     "453.258b012d.chunk.js.map": "/StudyFusion/static/js/453.258b012d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a1eb5a9f.css",
-    "static/js/main.ead8c46f.js"
+    "static/css/main.fbf36583.css",
+    "static/js/main.74e79e0c.js"
   ]
 }
