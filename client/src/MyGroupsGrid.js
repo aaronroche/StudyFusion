@@ -8,10 +8,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { CardActionArea, Checkbox } from '@mui/material';
+import { CardActionArea, Checkbox, Radio, RadioGroup } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -38,14 +39,29 @@ const dbRefUsers = ref(db, "users");
 
 function MyGroupsGrid() {
     const [age, setClass] = useState('');
+    const [groupSubject, setGroupSubject] = useState('');
+    const [groupSearchTerm, setGroupSearchTerm] = useState('');
     const [groupData, setGroupData] = useState([]);
     const [numGroups, setNumGroups] = useState(0);
     const [email, setEmail] = useState(null)
     const max = 6
 
     const handleChange = (event) => {
-        setClass(event.target.value);
+        setGroupSubject(event.target.value);
     };
+
+    const handleKeyUp = (event, someTerm, someSubject) => {
+        if (event.key == 'Enter') {
+            performSearch(event, someTerm, someSubject);
+        }
+    }
+
+    const performSearch = (e, someTerm, someSubject) => {
+        e.preventDefault();
+        localStorage.setItem('SearchTerm', someTerm);
+        localStorage.setItem('SubjectTerm', someSubject)
+        window.location.reload();
+      }
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -75,9 +91,11 @@ function MyGroupsGrid() {
 
     const auth = getAuth();
 
-    console.log("Email: " + email);
+    // console.log("Email: " + email);
 
     const displayUserGroups = (userEmail) => {
+        var searchedTerm = localStorage.getItem('SearchTerm') || 1;
+        var subjectTerm = localStorage.getItem('SubjectTerm') || 1;
         var userKey;
         get(dbRefUsers).then((snapshot) => {
             Object.entries(snapshot.val()).forEach((userVal) => {
@@ -88,16 +106,44 @@ function MyGroupsGrid() {
                         if (groupSnap.val() != null) {
                             Object.entries(groupSnap.val()).forEach((group) => {
                                 if (current < max) {
-                                    console.log(group);
+                                    // console.log(group);
                                     var groupRef = ref(db, "groups/" + group[0]);
         
                                     var groupArray;
                                     get(groupRef).then((snapshotGroup) => {
-                                        // console.log(snapshotGroup.val())
-                                        groupArray = [group[0], snapshotGroup.val()];
-                                        // console.log(groupArray);
-                                        setGroupData((groups) => [...groups, groupArray]);
-                                        current++;
+                                        if ((searchedTerm == 1 || searchedTerm == ''|| searchedTerm.length < 1)) {
+                                            if ((subjectTerm == 1 || subjectTerm == '' || subjectTerm.length < 1)) {
+                                                // console.log(snapshotGroup.val())
+                                                groupArray = [group[0], snapshotGroup.val()];
+                                                // console.log(groupArray);
+                                                setGroupData((groups) => [...groups, groupArray]);
+                                                current++;
+                                            }
+                                            else if (snapshotGroup.val().subject.includes(subjectTerm)) {
+                                                // console.log(snapshotGroup.val())
+                                                groupArray = [group[0], snapshotGroup.val()];
+                                                // console.log(groupArray);
+                                                setGroupData((groups) => [...groups, groupArray]);
+                                                current++;
+                                            }
+                                        }
+                                        else if (snapshotGroup.val().groupName.includes(searchedTerm)) {
+                                            if ((subjectTerm == 1 || subjectTerm == '' || subjectTerm.length < 1)) {
+                                                // console.log(snapshotGroup.val())
+                                                groupArray = [group[0], snapshotGroup.val()];
+                                                // console.log(groupArray);
+                                                setGroupData((groups) => [...groups, groupArray]);
+                                                current++;
+                                            }
+                                            else if (snapshotGroup.val().subject.includes(subjectTerm)) {
+                                                // console.log(snapshotGroup.val())
+                                                groupArray = [group[0], snapshotGroup.val()];
+                                                // console.log(groupArray);
+                                                setGroupData((groups) => [...groups, groupArray]);
+                                                current++;
+                                            }
+                                        }
+
                                     });
                                 }
                             });
@@ -175,25 +221,23 @@ function MyGroupsGrid() {
                                             >
                                                 <div className='checkbox-container'>
                                                     <FormGroup>
-                                                        <FormControlLabel control={<Checkbox />} label="Math" />
-                                                        <FormControlLabel control={<Checkbox />} label="Science" />
-                                                        <FormControlLabel control={<Checkbox />} label="Engineering" />
+                                                        <FormControl>
+                                                            <RadioGroup value={groupSubject} onChange={handleChange}>
+                                                                <FormControlLabel control={<Radio />} label="Math" value="Math"/>
+                                                                <FormControlLabel control={<Radio />} label="Science" value="Science" />
+                                                                <FormControlLabel control={<Radio />} label="Engineering" value="Engineering" />
+                                                                <FormControlLabel control={<Radio />} label="Other" value="Other" />
+                                                                <FormControlLabel control={<Radio />} label="Any" value="" />
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                        
                                                     </FormGroup>
                                                 </div>
                                                 <div className='select-container'>
                                                     <FormControl fullWidth>
-                                                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                                                        <Select
-                                                            labelId="demo-simple-select-label"
-                                                            id="demo-simple-select"
-                                                            value={age}
-                                                            label="Class"
-                                                            onChange={handleChange}
-                                                        >
-                                                            <MenuItem value={10}>CHEM 1210</MenuItem>
-                                                            <MenuItem value={20}>COMP 2040</MenuItem>
-                                                            <MenuItem value={30}>COMP 4620</MenuItem>
-                                                        </Select>
+                                                        <TextField id="demo-simple-select-label" label="Search"
+                                                        value={groupSearchTerm} onChange={(e) => setGroupSearchTerm(e.target.value)}
+                                                        onKeyUp={(e) => handleKeyUp(e, groupSearchTerm, groupSubject)}></TextField>
                                                     </FormControl>
                                                 </div>
                                             </Stack>

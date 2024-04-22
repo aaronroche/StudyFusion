@@ -16,7 +16,7 @@ const LoginPage = () => {
                 navigate("/"); // Navigate after successful login
             })
             .catch((error) => {
-                console.error("Error logging in:", error);
+                // console.error("Error logging in:", error);
                 alert("Login failed: " + error.message); // Display alert for login failure
             });
     };

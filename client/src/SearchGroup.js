@@ -304,7 +304,8 @@ function SearchGroup() {
         <div>
           Search
           <form onSubmit={(e) => performSearch(e, groupSearchTerm)}>
-            <input type="groupSearchTerm" placeholder="Search" value={groupSearchTerm} onChange={(e) => setGroupSearchTerm(e.target.value)} />
+            <input type="groupSearchTerm" placeholder="Search"
+            value={groupSearchTerm} onChange={(e) => setGroupSearchTerm(e.target.value)} />
             <button type="submit">Search</button>
           </form>
           </div>
