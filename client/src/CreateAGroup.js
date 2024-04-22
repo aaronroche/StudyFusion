@@ -3,7 +3,6 @@ import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Slider from '@mui/material/Slider';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import app from "./Firebase";
@@ -12,95 +11,89 @@ import { useNavigate } from "react-router-dom";
 import './CreateAGroup.css';
 
 export default function CreateAGroup() {
-    let [inputValue1, setInputValue1] = useState("");
-    let [inputValue2, setInputValue2] = useState("");
-    let [inputValue3, setInputValue3] = useState("");
-    let [inputValue4, setInputValue4] = useState("");
+    const [inputValues, setInputValues] = useState({
+        class: "",
+        groupName: "",
+        groupDesc: ""
+    });
 
     const navigate = useNavigate();
 
-    function valuetext(value) {
-        return `${value}°C`;
-    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setInputValues(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    }       
 
     const saveData = async () => {
+        const { subject, groupName, groupDesc } = inputValues;
+        if (!subject || !groupName || !groupDesc) {
+            alert("Please fill in all fields.");
+            return;
+        }
+    
         const db = getDatabase(app);
         const newDocRef = push(ref(db, "groups"));
         set(newDocRef, {
-            class: inputValue1,
-            groupName: inputValue2,
-            groupSize: inputValue3,
-            groupDesc: inputValue4
+            subject,
+            groupName,
+            groupDesc
         }).then(() => {
-            alert("data saved successfully")
+            alert("Data saved successfully");
+            navigate("/mygroups");
         }).catch((error) => {
-            alert("error: ", error.message);
-        })
-
-        navigate("/mygroups")
-    }
+            alert("Error: ", error.message);
+        });
+    }    
 
     return (
-        <div>
+        <div className="create-group-container">
             <h1 className='title'>Create a Group</h1>
-            <div className='dark-blue-box'></div>
             <div className='blue-box'>
-                    <Grid container spacing={3}>
-                        <Grid item xs={6}>
-                            <Stack direction="column" spacing={3}>
-                                <FormControl fullWidth>
-                                    <h3 className='class-title'>Subject</h3>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={inputValue1}
-                                        onChange={(e) => setInputValue1(e.target.value.toString())}
-                                    >
-                                        <MenuItem value={"Math"}>Math</MenuItem>
-                                        <MenuItem value={"Science"}>Science</MenuItem>
-                                        <MenuItem value={"Engineering"}>Engineering</MenuItem>
-                                        <MenuItem value={"Other"}>Other</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <div className='textfield-container'>
-                                    <h3>Group Name</h3>
-                                    <form>
-                                        <label>
-                                            <input onChange={(e) => setInputValue2(e.target.value)} className='group-name-field' type="text" name="name" />
-                                        </label>
-                                    </form>
-                                </div>
-                                <div className='slider-container'>
-                                    <h3>Group Size</h3>
-                                    <Slider
-                                        aria-label="GroupSize"
-                                        defaultValue={5}
-                                        getAriaValueText={valuetext}
-                                        valueLabelDisplay="auto"
-                                        step={1}
-                                        marks
-                                        min={1}
-                                        max={10}
-                                        onChange={(e) => setInputValue3(e.target.value)}
-                                        onChangeCommitted={(e) => setInputValue3(e.target.value)}
-                                    />
-                                </div>
-                            </Stack>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <div className='col2'>
-                                <h3>Description</h3>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <Stack direction="column" spacing={3}>
+                            <FormControl fullWidth>
+                                <h3 className='class-title'>Subject</h3>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={inputValues["class"]}
+                                    name="class"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={"Math"}>Math</MenuItem>
+                                    <MenuItem value={"Science"}>Science</MenuItem>
+                                    <MenuItem value={"Engineering"}>Engineering</MenuItem>
+                                    <MenuItem value={"Other"}>Other</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <div className='textfield-container'>
+                                <h3>Group Name</h3>
                                 <form>
                                     <label>
-                                        <input onChange={(e) => setInputValue4(e.target.value)} className='desc-field' type="text" name="name" />
+                                        <input onChange={handleChange} className='group-name-field' type="text" name="groupName" />
                                     </label>
                                 </form>
-                                <div className='submit-info-container'>
-                                    <input onClick={saveData} className='submit-info' type="submit" value="Submit"></input>
-                                </div>
                             </div>
-                        </Grid>
+                        </Stack>
                     </Grid>
+                    <Grid item xs={6}>
+                        <div className='col2'>
+                            <h3>Description</h3>
+                            <form>
+                                <label>
+                                    <textarea onChange={handleChange} className='desc-field' name="groupDesc" />
+                                </label>
+                            </form>
+                            <div className='submit-info-container'>
+                                <input onClick={saveData} className='submit-info' type="submit" value="Submit"></input>
+                            </div>
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
         </div>
     );
